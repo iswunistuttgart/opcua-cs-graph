@@ -1,0 +1,380 @@
+{
+    "opcua": [
+        {
+            "id": "opcua_part1_1_02",
+            "name": "Part 01: Overview and Concepts",
+            "shortName": "Overview",
+            "version": "1.02",
+            "date": "07/10/2012",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
+            "nodeset": "",
+            "type": 4.1,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "opcua_part1_1_03",
+            "name": "Part 01: Overview and Concepts",
+            "shortName": "Overview",
+            "version": "1.03",
+            "date": "10/10/2015",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
+            "nodeset": "",
+            "type": 4.1,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part1_1_02"
+            ]
+        },
+        {
+            "id": "opcua_part1_1_04_07",
+            "name": "Part 01: Overview and Concepts",
+            "shortName": "Overview",
+            "version": "1.04.07",
+            "date": "10/07/2017",
+            "status": "Release Candidate",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
+            "nodeset": "",
+            "type": 4.1,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part1_1_03"
+            ]
+        },
+        {
+            "id": "opcua_part2_1_03",
+            "name": "Part 2: Security Model",
+            "shortName": "Security",
+            "version": "1.03",
+            "date": "2015-11-25",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-2-security-model/",
+            "nodeset": "",
+            "type": 4.2,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "opcua_part5_1_00",
+            "name": " Part 5: Information Model ",
+            "shortName": "Information Model",
+            "version": "1.02",
+            "date": "2006-07-28",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
+            "nodeset": "",
+            "type": 4.5,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "opcua_part5_1_01",
+            "name": " Part 5: Information Model ",
+            "shortName": "Information Model",
+            "version": "1.01",
+            "date": "2009-02-06",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
+            "nodeset": "",
+            "type": 4.5,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part5_1_00"
+            ]
+        },
+        {
+            "id": "opcua_part5_1_02",
+            "name": " Part 5: Information Model ",
+            "shortName": "Information Model",
+            "version": "1.02",
+            "date": "2015-03-18",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
+            "nodeset": "",
+            "type": 4.5,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part5_1_01"
+            ]
+        },
+        {
+            "id": "opcua_part5_1_03",
+            "name": " Part 5: Information Model ",
+            "shortName": "Information Model",
+            "version": "1.03",
+            "date": "2015-07-20",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
+            "nodeset": "",
+            "type": 4.5,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part5_1_02"
+            ]
+        },
+        {
+            "id": "opcua_part5_1_04",
+            "name": " Part 5: Information Model ",
+            "shortName": "Information Model",
+            "version": "1.04",
+            "date": "2017-11-22",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
+            "nodeset": "",
+            "type": 4.5,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part5_1_03"
+            ]
+        },
+        {
+            "id": "opcua_part8_1_00",
+            "name": "Part 8: Data Access",
+            "shortName": "Data Access",
+            "version": "1.00",
+            "date": "2006-09-25",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
+            "nodeset": "",
+            "type": 4.8,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "opcua_part8_1_01",
+            "name": "Part 8: Data Access",
+            "shortName": "Data Access",
+            "version": "1.01",
+            "date": "2009-02-06",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
+            "nodeset": "",
+            "type": 4.8,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part8_1_00"
+            ]
+        },
+        {
+            "id": "opcua_part8_1_02",
+            "name": "Part 8: Data Access",
+            "shortName": "Data Access",
+            "version": "1.02",
+            "date": "2012-03-18",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
+            "nodeset": "",
+            "type": 4.8,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part8_1_01"
+            ]
+        },
+        {
+            "id": "opcua_part8_1_03",
+            "name": "Part 8: Data Access",
+            "shortName": "Data Access",
+            "version": "1.03",
+            "date": "2015-07-20",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
+            "nodeset": "",
+            "type": 4.8,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part8_1_02"
+            ]
+        },
+        {
+            "id": "opcua_part8_1_04",
+            "name": "Part 8: Data Access",
+            "shortName": "Data Access",
+            "version": "1.04",
+            "date": "2017-11-22",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
+            "nodeset": "",
+            "type": 4.8,
+            "standard_type": "OPC UA Standard",
+            "usedOPCUAPart": [
+                "opcua_part8_1_03"
+            ]
+        },
+        {
+            "id": "cs_di_1_0",
+            "name": "OPC Unified Architecture for Devices (DI)",
+            "shortName": "DI",
+            "version": "1.0",
+            "date": "12/09/2009",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+            "nodeset": "",
+            "type": 3,
+            "standard_type": "Companion Specification",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "cs_di_1_1",
+            "name": "OPC Unified Architecture for Devices (DI)",
+            "shortName": "DI",
+            "version": "1.01",
+            "date": "07/25/2013",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+            "nodeset": "",
+            "type": 3,
+            "standard_type": "Companion Specification",
+            "usedOPCUAPart": [
+                "opcua_part1_1_02"
+            ],
+            "usedCs": []
+        },
+        {
+            "id": "cs_adi_1_1",
+            "name": "OPC Unified Architecture for Analyzer Devices (ADI)",
+            "shortName": "ADI",
+            "version": "1.1",
+            "date": "07/30/2013",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": "",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "cs_autoid_1_0",
+            "name": " OPC Unified Architecture for AutoID",
+            "shortName": "AutoID",
+            "version": "1.0",
+            "date": "2016-04-18",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": "",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "cs_plcopen_1_0",
+            "name": "PLCopen Information Model ",
+            "shortName": "PLOpen",
+            "version": "1.0",
+            "date": "2010-03-18",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-plcopen-information-model/",
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": "",
+            "usedOPCUAPart": []
+        },{
+            "id": "cs_sercos_1_2",
+            "name": "OPC Unified Architecture for Sercos Devices",
+            "shortName": "Sercos",
+            "version": "1.2",
+            "date": "2017-04-11",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-sercos-devices/",
+            "type": 3.5,
+            "standard_type": "Companion Specification",
+            "nodeset": "",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "cs_automationml_1_00",
+            "name": "OPC Unified Architecture for AutomationML",
+            "shortName": "AutomationML",
+            "version": "1.0",
+            "date": "2016-02-22",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-automationml/",
+            "type": 3,
+            "standard_type": "Companion Specification",
+            "nodeset": [
+                "http://opcfoundation.org/UA/AML/Opc.Ua.AMLBaseTypes.NodeSet2.xml",
+                "http://opcfoundation.org/UA/AML/AMLLibs/Opc.Ua.AMLLibraries.NodeSet2.xml"
+            ],
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "cs_isa_95_1_00",
+            "name": "ISA-95 Common Object Model",
+            "shortName": "ISA-95",
+            "version": "1.0",
+            "date": "2013-10-30",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/isa-95-common-object-model/",
+            "type": 3,
+            "standard_type": "Companion Specification",
+            "nodeset": "",
+            "usedOPCUAPart": []
+        },
+        {
+            "id": "cs_cnc_1_00",
+            "name": "OPC Unified Architecture for CNC Systems",
+            "shortName": "CNC",
+            "version": "1.0",
+            "date": "2017-07-07",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-cnc-systems/",
+            "type": 1,
+            "standard_type": "Companion Specification",
+            "nodeset": "",
+            "usedOPCUAPart": []
+        },
+      {
+        "id": "cs_powerlink_1_00",
+        "name": "OPC UA POWERLINK Companion Specification ",
+        "shortName": "Powerlink",
+        "version": "1.0",
+        "date": "2017-11-15",
+        "status": "Release",
+        "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-powerlink-companion-specification/",
+        "type": 3.5,
+        "standard_type": "Companion Specification",
+        "nodeset": "",
+        "usedOPCUAPart": []
+      },
+      {
+        "id": "cs_mdis_1_00",
+        "name": "MDIS OPC UA Companion Specification",
+        "shortName": "mdis",
+        "version": "1.00",
+        "date": "2017-01-13",
+        "status": "Release",
+        "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/mdis-opc-ua-companion-specification/",
+        "type": 3,
+        "standard_type": "Companion Specification",
+        "nodeset": "",
+        "usedOPCUAPart": []
+      },
+      {
+        "id": "cs_mdis_1_01",
+        "name": "MDIS OPC UA Companion Specification",
+        "shortName": "mdis",
+        "version": "1.01",
+        "date": "2017-10-18",
+        "status": "Release",
+        "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/mdis-opc-ua-companion-specification/",
+        "type": 3,
+        "standard_type": "Companion Specification",
+        "nodeset": "",
+        "usedOPCUAPart": ["cs_mdis_1_00"]
+      },
+      {
+        "id": "cs_tobacco_1_0",
+        "name": " OPC UA for Tobacco Machines Companion Specification ",
+        "shortName": "Tobacco",
+        "version": "1.0",
+        "date": "2017-11-08",
+        "status": "Release",
+        "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-for-tobacco-machines-companion-specification/",
+        "type": 2,
+        "standard_type": "Companion Specification",
+        "nodeset": "",
+        "usedOPCUAPart": []
+      }
+    ]
+}

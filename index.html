@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
+<!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
+<!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
+
+<style>
+    body {
+        font: 11px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .dot {
+        stroke: #000;
+    }
+
+    .link {
+        stroke: #999;
+        stroke-width: 2px;
+    }
+
+    .tooltip {
+        position: absolute;
+        width: 200px;
+        height: 28px;
+        pointer-events: none;
+    }
+
+    svg {
+        float: left;
+    }
+
+    #info {
+        float: left;
+    }
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <svg id="graph">
+                <marker
+                    id="arrowUsed"
+                    markerUnits="strokeWidth"
+                    markerWidth="12"
+                    markerHeight="12"
+                    viewBox="0 0 12 12"
+                    refX="6"
+                    refY="6"
+                    orient="auto">
+                    <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
+                </marker>
+
+
+            </svg>
+        </div>
+        <div id="info" class="col-2"></div>
+    </div>
+</div>
+
+<script>
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = 960 - margin.left - margin.right,
+        height = 800 - margin.top - margin.bottom;
+
+    /*
+     * value accessor - returns the value to encode for a given data object.
+     * scale - maps value to a visual display encoding, such as a pixel position.
+     * map function - maps from data value to display value
+     * axis - sets up axis
+     */
+
+    function object2html(d) {
+        var retVal = "";
+
+        function isUrl(str) {
+            regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+            if (regexp.test(str)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        for (var key in d) {
+
+            retVal += key + " : ";
+            if (isUrl(d[key])) {
+                retVal += "<a href=" + d[key] + ">" + d[key] + "</a>";
+            } else {
+                retVal += d[key];
+            }
+            retVal += "<br>";
+        }
+        return (retVal);
+    }
+
+    var date_format = d3.time.format("%b %y");
+
+    // setup x
+    var xValue = function (d) {
+            return new Date(d.date).getTime();
+        }, // data -> value
+        xScale = d3.time.scale().range([0, width - 40]), // value -> display
+        xMap = function (d) {
+            return xScale(xValue(d));
+        }, // data -> display
+        xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+
+    function getStandardType(d) {
+        types = {1: "application-related", 2: "domain-specific", 3: "generell", 4: "opc ua standard"};
+        return Number.isInteger(d) ? types[d] : "";
+    }
+
+    // setup y
+    var yValue = function (d) {
+        return d.type;
+    }; // data -> value
+    var yScale = d3.scale.linear().range([height, 0]); // value -> display
+    var yMap = function (d) {
+        return yScale(yValue(d));
+    }; // data -> display
+    var yAxis = d3.svg.axis().scale(yScale)
+        .tickFormat(getStandardType)
+        .orient("left")
+
+    // setup fill color
+    var cValue = function (d) {
+            return d.status + " " + d.standard_type;
+        },
+        color = d3.scale.category10();
+
+    // add the graph canvas to the body of the webpage
+    var svg = d3.select("#graph")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 960 800")
+        .attr("class", "col-sm")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // add the tooltip area to the webpage
+    var tooltip = d3.select("#graph").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    // load data
+    d3.json("data/cs.json", function (error, data) {
+        var day0 = new Date('1/1/2006');
+        //nt dots overlapping axis, so add in buffer to data domain
+        yScale.domain([0, 5]);
+        xScale.domain([day0.getTime(), new Date().getTime()]);
+
+        // x-axis
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+            .append("text")
+            .attr("class", "label")
+            .attr("x", width)
+            .attr("y", -6)
+            .style("text-anchor", "end")
+            .text("Datum");
+
+        // y-axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("class", "label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Type");
+
+        svg.selectAll(".tick text")
+            .style("text-anchor", "start")
+            .attr("x", 2);
+
+
+        //createLinks
+        linkArray = data.opcua.map(function (value) {
+            if (value.usedOPCUAPart[0] == undefined) {
+                return;
+            }
+            var targetId = value.usedOPCUAPart[0];
+            var target = undefined
+            for (var i = 0; i < data.opcua.length; i++) {
+                //console.log(data.opcua[i]);
+                if (data.opcua[i].id === targetId) {
+                    target = data.opcua[i];
+                }
+            }
+            ;
+            retValue = {
+                "source": value.id,
+                "target": value.usedOPCUAPart[0],
+                "x1": xMap(value),
+                "y1": yMap(value),
+                "x2": xMap(target),
+                "y2": yMap(target)
+            };
+            return retValue;
+        }).filter(function (value) {
+            return value !== undefined;
+        });
+
+        svg.selectAll(".link")
+            .data(linkArray)
+            .enter().append("line")
+            .attr("class", "link")
+            .attr("x1", function (d) {
+                return d.x1
+            })
+            .attr("y1", function (d) {
+                return d.y1;
+            })
+            .attr("x2", function (d) {
+                if (d.y1 === d.y2){
+                    return d.x2 + 55;
+                }
+                else{
+                    return d.x2 + 25;
+                }
+            })
+            .attr("y2", function (d) {
+                if (d.y1 === d.y2){
+                    return d.y2
+                }
+                else{
+                    return  d.y2 + 20;
+                }
+            }).attr("marker-end", "url(#arrowUsed");
+
+        svg.selectAll(".dot")
+            .data(data.opcua)
+            .enter().append("rect")
+            .attr("x", xMap)
+            .attr("y", function (d) {
+                return yMap(d) - 14
+            })
+            .attr("width", 45)
+            .attr("height", 28)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke", function (d) {
+                return color(cValue(d));
+            })
+            .style("fill", function (d) {
+                return "#fff";
+            })
+            .style("stroke-width", function (d) {
+                return "2";
+            })
+            .on("mouseover", function (d) {
+                d3.select("#info").html(object2html(d));
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+
+        svg.selectAll(".dot")
+            .data(data.opcua)
+            .enter().append("text")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d)
+            })
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .append("tspan")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d) - 7;
+            })
+            .text(function (d) {
+                return d.shortName.length < 8 ? d.shortName : d.shortName.substr(0, 5) + "...";
+            }).append("tspan")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d) + 7
+            })
+            .text(function (d) {
+                return d.version;
+            });
+
+        // draw legend
+        var legend = svg.selectAll(".legend")
+            .data(color.domain())
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 20 + ")";
+            });
+
+        // draw legend colored rectangles
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("y", height - 100)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color);
+
+        // draw legend text
+        legend.append("text")
+            .attr("x", 20)
+            .attr("y", height - 95)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(function (d) {
+                return d;
+            })
+    });
+
+</script>
+
+</body>
+</html>

@@ -231,30 +231,28 @@
 
         svg.selectAll(".link")
             .data(linkArray)
-            .enter().append("line")
-            .attr("class", "link")
-            .attr("x1", function (d) {
-                return d.x1
+            .enter().append("path")
+            .attr("class", function(d) {
+                return "link link-from-" + d.source;
             })
-            .attr("y1", function (d) {
-                return d.y1;
-            })
-            .attr("x2", function (d) {
+            .attr("d", function (d) {
+                var path = d3.path();
                 if (d.y1 === d.y2){
-                    return d.x2 + 120;
+                    if (d.x2 + 120 + 30 > d.x1) {
+                        path.moveTo(d.x1 + 60, d.y1 + 14);
+                        path.bezierCurveTo(d.x1 + 50, d.y1 + 40, d.x2 + 70, d.y2 + 40, d.x2 + 60, d.y2 + 20);
+                    } else {
+                        path.moveTo(d.x1, d.y1);
+                        path.lineTo(d.x2 + 120, d.y2);
+                    }
+                } else {
+                    path.moveTo(d.x1, d.y1);
+                    path.bezierCurveTo(d.x1 - 10, d.y1, d.x2 + 26, d.y2 + 25, d.x2 + 25, d.y2 + 20);
                 }
-                else{
-                    return d.x2 + 25;
-                }
+                return path.toString();
             })
-            .attr("y2", function (d) {
-                if (d.y1 === d.y2){
-                    return d.y2
-                }
-                else{
-                    return  d.y2 + 20;
-                }
-            }).attr("marker-end", "url(#arrowUsed");
+            .style("fill", "none")
+            .attr("marker-end", "url(#arrowUsed");
 
         svg.selectAll(".dot")
             .data(data.opcua)

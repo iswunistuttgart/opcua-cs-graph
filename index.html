@@ -29,7 +29,7 @@
         shape-rendering: crispEdges;
     }
 
-    .dot {
+    .dot rect {
         stroke: #000;
     }
 
@@ -56,6 +56,7 @@
 </style>
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3-path.v1.min.js"></script>
 <div class="container">
     <div class="row">
         <div class="col-10">
@@ -258,6 +259,7 @@
         svg.selectAll(".dot")
             .data(data.opcua)
             .enter().append("g")
+            .attr("class", "dot")
             .append("rect")
             .attr("x", xMap)
             .attr("y", function (d) {

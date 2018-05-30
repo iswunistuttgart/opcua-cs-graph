@@ -240,7 +240,7 @@
             })
             .attr("x2", function (d) {
                 if (d.y1 === d.y2){
-                    return d.x2 + 55;
+                    return d.x2 + 120;
                 }
                 else{
                     return d.x2 + 25;
@@ -263,7 +263,7 @@
             .attr("y", function (d) {
                 return yMap(d) - 14
             })
-            .attr("width", 45)
+            .attr("width", 110)
             .attr("height", 28)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -296,7 +296,7 @@
                 return yMap(d) - 5;
             })
             .text(function (d) {
-                return d.shortName.length < 8 ? d.shortName : d.shortName.substr(0, 5) + "...";
+                return d.shortName.length < 20 ? d.shortName : d.shortName.substr(0, 5) + "...";
             }).append("tspan")
             .attr("x", function (d) {
                 return xMap(d) + 3

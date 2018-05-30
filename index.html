@@ -258,6 +258,15 @@
             .data(data.opcua)
             .enter().append("g")
             .attr("class", "dot")
+            .on("mouseover", function(d) {
+                svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
+            })
+            .on("mouseout", function(d) {
+                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+            })
             .append("rect")
             .attr("x", xMap)
             .attr("y", function (d) {

@@ -22,6 +22,10 @@
         font: 11px sans-serif;
     }
 
+    .container {
+        max-width: 140vh !important;
+    }
+
     .axis path,
     .axis line {
         fill: none;
@@ -29,7 +33,7 @@
         shape-rendering: crispEdges;
     }
 
-    .dot {
+    .dot rect {
         stroke: #000;
     }
 
@@ -51,11 +55,13 @@
 
     #info {
         float: left;
+        padding: 1em 0;
     }
 
 </style>
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3-path.v1.min.js"></script>
 <div class="container">
     <div class="row">
         <div class="col-10">
@@ -106,15 +112,15 @@
 
         for (var key in d) {
 
-            retVal += key + " : ";
+            retVal += "<dt>" + key + "</dt><dd>";
             if (isUrl(d[key])) {
                 retVal += "<a href=" + d[key] + ">" + d[key] + "</a>";
             } else {
                 retVal += d[key];
             }
-            retVal += "<br>";
+            retVal += "</dd>";
         }
-        return (retVal);
+        return ("<dl>" + retVal + "</dl>");
     }
 
     var date_format = d3.time.format("%b %y");
@@ -123,7 +129,7 @@
     var xValue = function (d) {
             return new Date(d.date).getTime();
         }, // data -> value
-        xScale = d3.time.scale().range([0, width - 40]), // value -> display
+        xScale = d3.time.scale().range([0, width - 60]), // value -> display
         xMap = function (d) {
             return xScale(xValue(d));
         }, // data -> display
@@ -203,66 +209,90 @@
 
         //createLinks
         linkArray = data.opcua.map(function (value) {
-            if (value.usedOPCUAPart[0] == undefined) {
-                return;
-            }
-            var targetId = value.usedOPCUAPart[0];
-            var target = undefined
-            for (var i = 0; i < data.opcua.length; i++) {
-                //console.log(data.opcua[i]);
-                if (data.opcua[i].id === targetId) {
-                    target = data.opcua[i];
+            retValues = [];
+            for (var j = 0; j < value.usedOPCUAPart.length; j++) {
+                if (value.usedOPCUAPart[j] == undefined) {
+                    return;
                 }
+                var targetId = value.usedOPCUAPart[j];
+                var target = undefined
+                for (var i = 0; i < data.opcua.length; i++) {
+                    //console.log(data.opcua[i]);
+                    if (data.opcua[i].id === targetId) {
+                        target = data.opcua[i];
+                    }
+                }
+
+                retValues.push({
+                    "source": value.id,
+                    "target": value.usedOPCUAPart[j],
+                    "x1": xMap(value),
+                    "y1": yMap(value),
+                    "x2": xMap(target),
+                    "y2": yMap(target)
+                });
             }
-            ;
-            retValue = {
-                "source": value.id,
-                "target": value.usedOPCUAPart[0],
-                "x1": xMap(value),
-                "y1": yMap(value),
-                "x2": xMap(target),
-                "y2": yMap(target)
-            };
-            return retValue;
-        }).filter(function (value) {
-            return value !== undefined;
+            return retValues;
         });
+        linkArray = Array.prototype.concat.apply([], linkArray);
 
         svg.selectAll(".link")
             .data(linkArray)
-            .enter().append("line")
-            .attr("class", "link")
-            .attr("x1", function (d) {
-                return d.x1
+            .enter().append("path")
+            .attr("class", function(d) {
+                return "link link-from-" + d.source;
             })
-            .attr("y1", function (d) {
-                return d.y1;
-            })
-            .attr("x2", function (d) {
+            .attr("d", function (d) {
+                var path = d3.path();
                 if (d.y1 === d.y2){
-                    return d.x2 + 55;
+                    if (d.x2 + 120 + 30 > d.x1) {
+                        path.moveTo(d.x1 + 60, d.y1 + 14);
+                        path.bezierCurveTo(d.x1 + 50, d.y1 + 40, d.x2 + 70, d.y2 + 40, d.x2 + 60, d.y2 + 20);
+                    } else {
+                        path.moveTo(d.x1, d.y1);
+                        path.lineTo(d.x2 + 120, d.y2);
+                    }
+                } else {
+                    path.moveTo(d.x1, d.y1);
+                    path.bezierCurveTo(d.x1 - 10, d.y1, d.x2 + 26, d.y2 + 25, d.x2 + 25, d.y2 + 20);
                 }
-                else{
-                    return d.x2 + 25;
-                }
+                return path.toString();
             })
-            .attr("y2", function (d) {
-                if (d.y1 === d.y2){
-                    return d.y2
-                }
-                else{
-                    return  d.y2 + 20;
-                }
-            }).attr("marker-end", "url(#arrowUsed");
+            .on("mouseover", function(d) {
+                svg.selectAll(".link").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".dot").filter(function(dd,i) { return dd.id != d.source && dd.id != d.target }).transition().duration(200).style("opacity", 0.2);
+            })
+            .on("mouseout", function(d) {
+                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+            })
+            .style("fill", "none")
+            .attr("marker-end", "url(#arrowUsed");
 
         svg.selectAll(".dot")
             .data(data.opcua)
-            .enter().append("rect")
+            .enter().append("g")
+            .attr("class", "dot")
+            .attr("id", function(d) {
+                return "dot-" + d.id
+            })
+            .on("mouseover", function(d) {
+                svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
+                d3.select("#info").html(object2html(d));
+            })
+            .on("mouseout", function(d) {
+                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+                d3.select("#info").html("");
+            })
+            .append("rect")
             .attr("x", xMap)
             .attr("y", function (d) {
                 return yMap(d) - 14
             })
-            .attr("width", 45)
+            .attr("width", 110)
             .attr("height", 28)
             .attr("rx", 5)
             .attr("ry", 5)
@@ -275,25 +305,8 @@
             .style("stroke-width", function (d) {
                 return "2";
             })
-            .on("mouseover", function (d) {
-                d3.select("#info").html(object2html(d));
-            })
-            .on("mouseout", function (d) {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-
-
-        svg.selectAll(".dot")
-            .data(data.opcua)
-            .enter().append("text")
-            .attr("x", function (d) {
-                return xMap(d) + 3
-            })
-            .attr("y", function (d) {
-                return yMap(d)
-            })
+            .select(function() { return this.parentElement; })
+            .append("text")
             .attr("dy", ".35em")
             .style("text-anchor", "start")
             .append("tspan")
@@ -301,16 +314,16 @@
                 return xMap(d) + 3
             })
             .attr("y", function (d) {
-                return yMap(d) - 7;
+                return yMap(d) - 5;
             })
             .text(function (d) {
-                return d.shortName.length < 8 ? d.shortName : d.shortName.substr(0, 5) + "...";
+                return d.shortName.length < 20 ? d.shortName : d.shortName.substr(0, 5) + "...";
             }).append("tspan")
             .attr("x", function (d) {
                 return xMap(d) + 3
             })
             .attr("y", function (d) {
-                return yMap(d) + 7
+                return yMap(d) + 10
             })
             .text(function (d) {
                 return d.version;

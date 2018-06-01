@@ -209,30 +209,32 @@
 
         //createLinks
         linkArray = data.opcua.map(function (value) {
-            if (value.usedOPCUAPart[0] == undefined) {
-                return;
-            }
-            var targetId = value.usedOPCUAPart[0];
-            var target = undefined
-            for (var i = 0; i < data.opcua.length; i++) {
-                //console.log(data.opcua[i]);
-                if (data.opcua[i].id === targetId) {
-                    target = data.opcua[i];
+            retValues = [];
+            for (var j = 0; j < value.usedOPCUAPart.length; j++) {
+                if (value.usedOPCUAPart[j] == undefined) {
+                    return;
                 }
+                var targetId = value.usedOPCUAPart[j];
+                var target = undefined
+                for (var i = 0; i < data.opcua.length; i++) {
+                    //console.log(data.opcua[i]);
+                    if (data.opcua[i].id === targetId) {
+                        target = data.opcua[i];
+                    }
+                }
+
+                retValues.push({
+                    "source": value.id,
+                    "target": value.usedOPCUAPart[j],
+                    "x1": xMap(value),
+                    "y1": yMap(value),
+                    "x2": xMap(target),
+                    "y2": yMap(target)
+                });
             }
-            ;
-            retValue = {
-                "source": value.id,
-                "target": value.usedOPCUAPart[0],
-                "x1": xMap(value),
-                "y1": yMap(value),
-                "x2": xMap(target),
-                "y2": yMap(target)
-            };
-            return retValue;
-        }).filter(function (value) {
-            return value !== undefined;
+            return retValues;
         });
+        linkArray = Array.prototype.concat.apply([], linkArray);
 
         svg.selectAll(".link")
             .data(linkArray)

@@ -265,6 +265,9 @@
             .data(data.opcua)
             .enter().append("g")
             .attr("class", "dot")
+            .attr("id", function(d) {
+                return "dot-" + d.id
+            })
             .on("mouseover", function(d) {
                 svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
                 svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);

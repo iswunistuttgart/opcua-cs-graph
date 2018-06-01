@@ -55,6 +55,7 @@
 
     #info {
         float: left;
+        padding: 1em 0;
     }
 
 </style>
@@ -111,15 +112,15 @@
 
         for (var key in d) {
 
-            retVal += key + " : ";
+            retVal += "<dt>" + key + "</dt><dd>";
             if (isUrl(d[key])) {
                 retVal += "<a href=" + d[key] + ">" + d[key] + "</a>";
             } else {
                 retVal += d[key];
             }
-            retVal += "<br>";
+            retVal += "</dd>";
         }
-        return (retVal);
+        return ("<dl>" + retVal + "</dl>");
     }
 
     var date_format = d3.time.format("%b %y");

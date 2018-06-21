@@ -171,12 +171,72 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+    var firstDay = new Date('1/1/2006');
+    var lastDay = new Date();
+    var zoom = 1.0;
+    var scrollX = 0.5;
+    var scrollY = 0.5;
+
+    function linkPathGenerator(d) {
+        var path = d3.path();
+        var coords = {
+            "source": d.source.id,
+            "target": d.usedOPCUAPart,
+            "x1": xMap(d.source),
+            "y1": yMap(d.source),
+            "x2": xMap(d.target),
+            "y2": yMap(d.target)
+        };
+        if (coords.y1 === coords.y2){
+            if (coords.x2 + 120 + 30 > coords.x1) {
+                path.moveTo(coords.x1 + 60, coords.y1 + 14);
+                path.bezierCurveTo(coords.x1 + 50, coords.y1 + 40, coords.x2 + 70, coords.y2 + 40, coords.x2 + 60, coords.y2 + 20);
+            } else {
+                path.moveTo(coords.x1, coords.y1);
+                path.lineTo(coords.x2 + 120, coords.y2);
+            }
+        } else {
+            path.moveTo(coords.x1, coords.y1);
+            path.bezierCurveTo(coords.x1 - 10, coords.y1, coords.x2 + 26, coords.y2 + 25, coords.x2 + 25, coords.y2 + 20);
+        }
+        return path.toString();
+    }
+
+    function setScale() {
+        var spanTotalX = lastDay.getTime() - firstDay.getTime();
+        var spanX = spanTotalX / zoom;
+        yScale.domain([0, 5]);
+        xScale.domain([firstDay.getTime() + (spanTotalX * scrollX) - (spanX / 2), firstDay.getTime() + (spanTotalX * scrollX) + (spanX / 2)]);
+        var dots = svg.selectAll(".dot");
+        dots.select("rect")
+            .attr("x", xMap)
+            .attr("y", function (d) {
+                return yMap(d) - 14
+            });
+
+        dots.select("tspan")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d) - 5;
+            })
+            .select("tspan")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d) + 10
+            });
+        var links = svg.selectAll(".link");
+        links.attr("d", linkPathGenerator);
+            svg.select("g.x")
+                .call(xAxis);
+    }
+
     // load data
     d3.json("data/cs.json", function (error, data) {
-        var day0 = new Date('1/1/2006');
-        //nt dots overlapping axis, so add in buffer to data domain
-        yScale.domain([0, 5]);
-        xScale.domain([day0.getTime(), new Date().getTime()]);
+        setScale();
 
         // x-axis
         svg.append("g")
@@ -224,12 +284,9 @@
                 }
 
                 retValues.push({
-                    "source": value.id,
-                    "target": value.usedOPCUAPart[j],
-                    "x1": xMap(value),
-                    "y1": yMap(value),
-                    "x2": xMap(target),
-                    "y2": yMap(target)
+                    "source": value,
+                    "usedOPCUAPart": value.usedOPCUAPart[j],
+                    "target": target
                 });
             }
             return retValues;
@@ -242,22 +299,7 @@
             .attr("class", function(d) {
                 return "link link-from-" + d.source;
             })
-            .attr("d", function (d) {
-                var path = d3.path();
-                if (d.y1 === d.y2){
-                    if (d.x2 + 120 + 30 > d.x1) {
-                        path.moveTo(d.x1 + 60, d.y1 + 14);
-                        path.bezierCurveTo(d.x1 + 50, d.y1 + 40, d.x2 + 70, d.y2 + 40, d.x2 + 60, d.y2 + 20);
-                    } else {
-                        path.moveTo(d.x1, d.y1);
-                        path.lineTo(d.x2 + 120, d.y2);
-                    }
-                } else {
-                    path.moveTo(d.x1, d.y1);
-                    path.bezierCurveTo(d.x1 - 10, d.y1, d.x2 + 26, d.y2 + 25, d.x2 + 25, d.y2 + 20);
-                }
-                return path.toString();
-            })
+            .attr("d", linkPathGenerator)
             .on("mouseover", function(d) {
                 svg.selectAll(".link").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
                 svg.selectAll(".dot").filter(function(dd,i) { return dd.id != d.source && dd.id != d.target }).transition().duration(200).style("opacity", 0.2);
@@ -356,6 +398,21 @@
                 return d;
             })
     });
+    function scrollEvent(e) {
+        var evt = window.event || e;
+        var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;
+        if (evt.target.id != "graph")
+            return;
+        var offsetDeltaX = (evt.offsetX * 1.0 / evt.target.parentElement.clientWidth - 0.5);
+        scrollX += offsetDeltaX / zoom * delta * 0.0001;// + scrollX * (1.0 - 1.0/zoom);
+        zoom = zoom + delta * 0.0001;
+        zoom = Math.max(1.0, Math.min(zoom, 5.0));
+        scrollX = Math.min(1.0 - 0.5 / zoom, Math.max(0.5 / zoom, scrollX));
+        setScale();
+    };
+    var svgDOM = document.getElementById("graph");
+    svgDOM.addEventListener("mousewheel", scrollEvent);
+    svgDOM.addEventListener("DOMMouseScroll", scrollEvent);
 
 </script>
 

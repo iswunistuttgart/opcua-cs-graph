@@ -66,8 +66,11 @@
     }
 
     #info {
-        float: left;
-        padding: 1em 0;
+        padding: 0.2em;
+        position: fixed;
+        max-width: 300px;
+        background: white;
+        border: solid 1px gray;
     }
 
 </style>
@@ -103,9 +106,9 @@
 
             </svg>
         </div>
-        <div id="info" class="col-2"></div>
     </div>
 </div>
+<div id="info"></div>
 
 <script>
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -198,6 +201,8 @@
     var zoom = 1.0;
     var scrollX = 0.5;
     var scrollY = 0.5;
+
+    var hideTimeout = null;
 
     function linkPathGenerator(d) {
         var path = d3.path();
@@ -315,16 +320,29 @@
         });
         linkArray = Array.prototype.concat.apply([], linkArray);
 
+        d3.select("#info").on("mouseover", function(d) {
+            clearTimeout(hideTimeout);
+        })
+        .on("mouseout", function(d) {
+            clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(function() {
+                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+                d3.select("#info").transition().duration(200).style("opacity", 0);
+                d3.select("#info").transition().delay(200).style("display", "none");
+            }, 500);
+        });
+
         svg.selectAll(".link")
             .data(linkArray)
             .enter().append("path")
             .attr("class", function(d) {
-                return "link link-from-" + d.source;
+                return "link link-from-" + d.source.id;
             })
             .attr("d", linkPathGenerator)
             .on("mouseover", function(d) {
                 svg.selectAll(".link").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
-                svg.selectAll(".dot").filter(function(dd,i) { return dd.id != d.source && dd.id != d.target }).transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".dot").filter(function(dd,i) { return dd.id != d.source.id && dd.id != d.target.id }).transition().duration(200).style("opacity", 0.2);
             })
             .on("mouseout", function(d) {
                 svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
@@ -341,15 +359,31 @@
                 return "dot-" + d.id
             })
             .on("mouseover", function(d) {
+                svg.selectAll(".dot").filter(function(dd,i){ return dd == d; }).transition().duration(200).style("opacity", 1);
                 svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
                 svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
                 svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
-                d3.select("#info").html(object2html(d));
+                d3.select("#info").html(object2html(d)).transition().duration(200).style("opacity", 0.8);
+                d3.select("#info").style("display", "block");
+                var ge = document.getElementById("graph");
+                var ge_cr = ge.getBoundingClientRect();
+                ge_cr.width  -= Number(d3.select('#graph').style('padding-left').replace('px', '')) + Number(d3.select('#graph').style('padding-right').replace('px', ''));
+                ge_cr.height -= Number(d3.select('#graph').style('padding-top' ).replace('px', '')) + Number(d3.select('#graph').style('padding-bottom').replace('px', ''));
+                ge_cr.left   += Number(d3.select('#graph').style('padding-left').replace('px', ''));
+                ge_cr.top    += Number(d3.select('#graph').style('padding-top' ).replace('px', ''));
+                d3.select("#info")
+                    .style('left', ge_cr.left + xMap(d)*ge_cr.width/ge.viewBox.animVal.width+'px')
+                    .style('top', ge_cr.top + 36 + yMap(d)*ge_cr.height/ge.viewBox.animVal.height+'px');
+                clearTimeout(hideTimeout);
             })
             .on("mouseout", function(d) {
-                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
-                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
-                d3.select("#info").html("");
+                clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(function() {
+                    svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
+                    svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+                    d3.select("#info").transition().duration(200).style("opacity", 0);
+                    d3.select("#info").transition().delay(200).style("display", "none");
+                }, 500);
             })
             .append("rect")
             .attr("x", xMap)
@@ -418,19 +452,22 @@
             .style("text-anchor", "start")
             .text(function (d) {
                 return d;
-            })
+            });
     });
     function scrollEvent(e) {
         var evt = window.event || e;
         var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;
+        var old_zoom = zoom;
         if (evt.target.id != "graph")
-            return;
+            return true;
         var offsetDeltaX = (evt.offsetX * 1.0 / evt.target.parentElement.clientWidth - 0.5);
         scrollX += offsetDeltaX / zoom * delta * 0.0001;// + scrollX * (1.0 - 1.0/zoom);
         zoom = zoom + delta * 0.0001;
         zoom = Math.max(1.0, Math.min(zoom, 5.0));
         scrollX = Math.min(1.0 - 0.5 / zoom, Math.max(0.5 / zoom, scrollX));
         setScale();
+        if (zoom != old_zoom)
+            evt.preventDefault();
     };
     var svgDOM = document.getElementById("graph");
     svgDOM.addEventListener("mousewheel", scrollEvent);

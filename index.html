@@ -65,9 +65,13 @@
         float: left;
     }
 
+    #graphContainer {
+        position: absolute;
+    }
+
     #info {
         padding: 0.2em;
-        position: fixed;
+        position: absolute;
         max-width: 300px;
         background: white;
         border: solid 1px gray;
@@ -90,25 +94,27 @@
 <div class="container">
     <div class="row">
         <div class="col-10">
-            <svg id="graph">
-                <marker
-                    id="arrowUsed"
-                    markerUnits="strokeWidth"
-                    markerWidth="12"
-                    markerHeight="12"
-                    viewBox="0 0 12 12"
-                    refX="6"
-                    refY="6"
-                    orient="auto">
-                    <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
-                </marker>
+            <div id="graphContainer">
+                <svg id="graph">
+                    <marker
+                        id="arrowUsed"
+                        markerUnits="strokeWidth"
+                        markerWidth="12"
+                        markerHeight="12"
+                        viewBox="0 0 12 12"
+                        refX="6"
+                        refY="6"
+                        orient="auto">
+                        <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
+                    </marker>
 
 
-            </svg>
+                </svg>
+                <div id="info"></div>
+            </div>
         </div>
     </div>
 </div>
-<div id="info"></div>
 
 <script>
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -397,8 +403,8 @@
                 ge_cr.left   += Number(d3.select('#graph').style('padding-left').replace('px', ''));
                 ge_cr.top    += Number(d3.select('#graph').style('padding-top' ).replace('px', ''));
                 d3.select("#info")
-                    .style('left', ge_cr.left + xMap(d)*ge_cr.width/ge.viewBox.animVal.width+'px')
-                    .style('top', ge_cr.top + 36 + yMap(d)*ge_cr.height/ge.viewBox.animVal.height+'px');
+                    .style('left', xMap(d)*ge_cr.width/ge.viewBox.animVal.width+'px')
+                    .style('top', 36 + yMap(d)*ge_cr.height/ge.viewBox.animVal.height+'px');
                 clearTimeout(hideTimeout);
             })
             .on("mouseout", function(d) {

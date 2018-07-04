@@ -9,7 +9,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
             "nodeset": "",
-            "type": 4.1,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": []
         },
@@ -22,7 +22,7 @@
             "status": "Release",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
             "nodeset": "",
-            "type": 4.1,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part1_1_02"
@@ -37,7 +37,7 @@
             "status": "Release Candidate",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
             "nodeset": "",
-            "type": 4.1,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part1_1_03"
@@ -52,7 +52,7 @@
             "status": "Release",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-2-security-model/",
             "nodeset": "",
-            "type": 4.2,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": []
         },
@@ -65,7 +65,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
             "nodeset": "",
-            "type": 4.5,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": []
         },
@@ -78,7 +78,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
             "nodeset": "",
-            "type": 4.5,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part5_1_00"
@@ -93,7 +93,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
             "nodeset": "",
-            "type": 4.5,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part5_1_01"
@@ -108,7 +108,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
             "nodeset": "",
-            "type": 4.5,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part5_1_02"
@@ -123,7 +123,7 @@
             "status": "Release",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
             "nodeset": "",
-            "type": 4.5,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part5_1_03"
@@ -138,7 +138,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
             "nodeset": "",
-            "type": 4.8,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": []
         },
@@ -151,7 +151,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
             "nodeset": "",
-            "type": 4.8,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part8_1_00"
@@ -166,7 +166,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
             "nodeset": "",
-            "type": 4.8,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part8_1_01"
@@ -181,7 +181,7 @@
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
             "nodeset": "",
-            "type": 4.8,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part8_1_02"
@@ -196,7 +196,7 @@
             "status": "Release",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
             "nodeset": "",
-            "type": 4.8,
+            "type": 4,
             "standard_type": "OPC UA Standard",
             "usedOPCUAPart": [
                 "opcua_part8_1_03"
@@ -277,7 +277,7 @@
             "date": "2017-04-11",
             "status": "Release",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-sercos-devices/",
-            "type": 3.5,
+            "type": 3,
             "standard_type": "Companion Specification",
             "nodeset": "",
             "usedOPCUAPart": []
@@ -332,7 +332,7 @@
         "date": "2017-11-15",
         "status": "Release",
         "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-powerlink-companion-specification/",
-        "type": 3.5,
+        "type": 3,
         "standard_type": "Companion Specification",
         "nodeset": "",
         "usedOPCUAPart": []

@@ -114,6 +114,7 @@
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
         height = 800 - margin.top - margin.bottom;
+    var opcua_data = null;
 
     /*
      * value accessor - returns the value to encode for a given data object.
@@ -171,7 +172,7 @@
     }; // data -> value
     var yScale = d3.scale.linear().range([height, 0]); // value -> display
     var yMap = function (d) {
-        return yScale(yValue(d));
+        return yScale(yValue(d)) + d.y_offset - 0.5 * height / 5;
     }; // data -> display
     var yAxis = d3.svg.axis().scale(yScale)
         .tickFormat(getStandardType)
@@ -223,8 +224,13 @@
                 path.lineTo(coords.x2 + 120, coords.y2);
             }
         } else {
-            path.moveTo(coords.x1, coords.y1);
-            path.bezierCurveTo(coords.x1 - 10, coords.y1, coords.x2 + 26, coords.y2 + 25, coords.x2 + 25, coords.y2 + 20);
+            if (coords.y1 < coords.y2) {
+                path.moveTo(coords.x1, coords.y1);
+                path.bezierCurveTo(coords.x1 - 10, coords.y1, coords.x2 + 25, coords.y2 - 50, coords.x2 + 25, coords.y2 - 20);
+            } else {
+                path.moveTo(coords.x1, coords.y1);
+                path.bezierCurveTo(coords.x1 - 10, coords.y1, coords.x2 + 25, coords.y2 + 50, coords.x2 + 25, coords.y2 + 20);
+            }
         }
         return path.toString();
     }
@@ -263,7 +269,26 @@
 
     // load data
     d3.json("data/cs.json", function (error, data) {
+        opcua_data = data.opcua.sort(function(a,b) {
+            var biggest_date = new Date('1/1/2099').getTime();
+            return (a.type * biggest_date + xValue(a) - b.type * biggest_date - xValue(b));
+        });
+
         setScale();
+
+        for (var index in opcua_data) {
+            var item = opcua_data[index];
+            item.y_offset = 0;
+            for (var index2 in opcua_data) {
+                if (index == index2)
+                    break;
+                var item2 = opcua_data[index2];
+                if (((item.y_offset != 0) || (item2.y_offset == 0)) && (item.type == item2.type) && (xMap(item2) <= xMap(item)) && ((xMap(item2) + 110) >= xMap(item))) {
+                    item.y_offset = item2.y_offset + 32;
+                }
+            }
+            //opcua_data[index].y_offset = item.y_offset;
+        }
 
         // x-axis
         svg.append("g")
@@ -412,7 +437,7 @@
                 return xMap(d) + 3
             })
             .attr("y", function (d) {
-                return yMap(d) - 5;
+                return yMap(d) - 5
             })
             .text(function (d) {
                 return d.shortName.length < 20 ? d.shortName : d.shortName.substr(0, 5) + "...";

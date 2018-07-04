@@ -60,7 +60,7 @@
             "id": "opcua_part5_1_00",
             "name": " Part 5: Information Model ",
             "shortName": "Information Model",
-            "version": "1.02",
+            "version": "1.00",
             "date": "2006-07-28",
             "status": "Release (old)",
             "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",

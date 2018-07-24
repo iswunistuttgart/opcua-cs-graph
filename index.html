@@ -159,7 +159,7 @@
 
     // setup x
     var xValue = function (d) {
-            return new Date(d.date).getTime();
+            return new Date(d.details.date).getTime();
         }, // data -> value
         xScale = d3.time.scale().range([0, width - 60]), // value -> display
         xMap = function (d) {
@@ -174,11 +174,11 @@
 
     // setup y
     var yValue = function (d) {
-        return d.type;
+        return d.parent.type;
     }; // data -> value
     var yScale = d3.scale.linear().range([height, 0]); // value -> display
     var yMap = function (d) {
-        return yScale(yValue(d)) + d.y_offset - 0.5 * height / 5;
+        return yScale(yValue(d)) + d.parent.y_offset - 0.5 * height / 5;
     }; // data -> display
     var yAxis = d3.svg.axis().scale(yScale)
         .tickFormat(getStandardType)
@@ -273,18 +273,25 @@
                 .call(xAxis);
     }
 
+    function versionMap(spec, version) {
+        return {"id": spec.id + "_" + version[0].replace(".", "_"), "parent": spec, "version": version[0], "details": version[1]};
+    }
+
     // load data
     d3.json("data/cs.json", function (error, data) {
-        opcua_data = data.opcua.sort(function(a,b) {
+        /*opcua_data = data.opcua.sort(function(a,b) {
             var biggest_date = new Date('1/1/2099').getTime();
             return (a.type * biggest_date + xValue(a) - b.type * biggest_date - xValue(b));
-        });
+        });*/
 
         setScale();
 
+        var y_offset = 0;
         for (var index in opcua_data) {
             var item = opcua_data[index];
-            item.y_offset = 0;
+            item.y_offset = y_offset;
+            y_offset += 32;
+            /*
             for (var index2 in opcua_data) {
                 if (index == index2)
                     break;
@@ -292,7 +299,7 @@
                 if (((item.y_offset != 0) || (item2.y_offset == 0)) && (item.type == item2.type) && (xMap(item2) <= xMap(item)) && ((xMap(item2) + 110) >= xMap(item))) {
                     item.y_offset = item2.y_offset + 32;
                 }
-            }
+            }*/
             //opcua_data[index].y_offset = item.y_offset;
         }
 
@@ -324,26 +331,31 @@
             .style("text-anchor", "start")
             .attr("x", 2);
 
-
+        dots = data.opcua.map(function(spec) {
+            return Array.from(Object.entries(spec.versions)).map(function(version) {
+                return versionMap(spec, version);
+            })
+        });
+        dots = Array.prototype.concat.apply([], dots);
         //createLinks
-        linkArray = data.opcua.map(function (value) {
+        linkArray = dots.map(function (value) {
             retValues = [];
-            for (var j = 0; j < value.usedOPCUAPart.length; j++) {
-                if (value.usedOPCUAPart[j] == undefined) {
+            for (var j = 0; j < value.details.usedOPCUAPart.length; j++) {
+                if (value.details.usedOPCUAPart[j] == undefined) {
                     return;
                 }
-                var targetId = value.usedOPCUAPart[j];
+                var targetId = value.details.usedOPCUAPart[j];
                 var target = undefined
-                for (var i = 0; i < data.opcua.length; i++) {
+                for (var i = 0; i < dots.length; i++) {
                     //console.log(data.opcua[i]);
-                    if (data.opcua[i].id === targetId) {
-                        target = data.opcua[i];
+                    if (dots[i].id === targetId) {
+                        target = dots[i];
                     }
                 }
 
                 retValues.push({
                     "source": value,
-                    "usedOPCUAPart": value.usedOPCUAPart[j],
+                    "usedOPCUAPart": value.details.usedOPCUAPart[j],
                     "target": target
                 });
             }
@@ -382,9 +394,67 @@
             .style("fill", "none")
             .attr("marker-end", "url(#arrowUsed");
 
-        svg.selectAll(".dot")
+        svg.selectAll(".spec")
             .data(data.opcua)
             .enter().append("g")
+            .attr("class", "spec")
+            .attr("id", function(d) {
+                return "spec-" + d.id
+            })
+            .selectAll(".dot")
+            .data(function(d) {
+                var v = Array.from(Object.entries(d.versions)).map(function(e) {
+                    return versionMap(d, e);
+                });
+                return v;
+            })
+            .enter().append("g")
+            .attr("class", "dot")
+            .attr("id", function(d) {
+                return "dot-" + d.id;
+            })
+            .append("rect")
+            .attr("x", xMap)
+            .attr("y", function (d) {
+                return yMap(d) - 14
+            })
+            .attr("width", 110)
+            .attr("height", 28)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke", function (d) {
+                return color(cValue(d.parent));
+            })
+            .style("fill", function (d) {
+                return "#fff";
+            })
+            .style("stroke-width", function (d) {
+                return "2";
+            })
+            .select(function() { return this.parentElement; })
+            .append("text")
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .append("tspan")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d) - 5
+            })
+            .text(function (d) {
+                return d.parent.shortName.length < 20 ? d.parent.shortName : d.parent.shortName.substr(0, 5) + "...";
+            }).append("tspan")
+            .attr("x", function (d) {
+                return xMap(d) + 3
+            })
+            .attr("y", function (d) {
+                return yMap(d) + 10
+            })
+            .text(function (d) {
+                return d.version;
+            });
+            /*
             .attr("class", "dot")
             .attr("id", function(d) {
                 return "dot-" + d.id
@@ -415,48 +485,7 @@
                     d3.select("#info").transition().duration(200).style("opacity", 0);
                     d3.select("#info").transition().delay(200).style("display", "none");
                 }, 500);
-            })
-            .append("rect")
-            .attr("x", xMap)
-            .attr("y", function (d) {
-                return yMap(d) - 14
-            })
-            .attr("width", 110)
-            .attr("height", 28)
-            .attr("rx", 5)
-            .attr("ry", 5)
-            .style("stroke", function (d) {
-                return color(cValue(d));
-            })
-            .style("fill", function (d) {
-                return "#fff";
-            })
-            .style("stroke-width", function (d) {
-                return "2";
-            })
-            .select(function() { return this.parentElement; })
-            .append("text")
-            .attr("dy", ".35em")
-            .style("text-anchor", "start")
-            .append("tspan")
-            .attr("x", function (d) {
-                return xMap(d) + 3
-            })
-            .attr("y", function (d) {
-                return yMap(d) - 5
-            })
-            .text(function (d) {
-                return d.shortName.length < 20 ? d.shortName : d.shortName.substr(0, 5) + "...";
-            }).append("tspan")
-            .attr("x", function (d) {
-                return xMap(d) + 3
-            })
-            .attr("y", function (d) {
-                return yMap(d) + 10
-            })
-            .text(function (d) {
-                return d.version;
-            });
+            })*/
 
         // draw legend
         var legend = svg.selectAll(".legend")

@@ -218,6 +218,13 @@
     var cValue = function (d) {
             return d.details.status + " " + d.parent.standard_type;
         },
+        cMap = function(d) {
+            if ((d.indexOf("old") !== -1) || (d.indexOf("Old") !== -1)) {
+                return "#999";
+            } else {
+                return color(d);
+            }
+        }
         color = d3.scale.category10();
 
     // add the graph canvas to the body of the webpage
@@ -534,7 +541,7 @@
             .attr("rx", 5)
             .attr("ry", 5)
             .style("stroke", function (d) {
-                return color(cValue(d));
+                return cMap(cValue(d));
             })
             .style("fill", function (d) {
                 return "#fff";
@@ -568,7 +575,7 @@
 
         // draw legend
         var legend = svg.selectAll(".legend")
-            .data(color.domain())
+            .data(["Old Specification"].concat(color.domain()))
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function (d, i) {
@@ -581,7 +588,7 @@
             .attr("y", height - 30)
             .attr("width", 18)
             .attr("height", 18)
-            .style("fill", color);
+            .style("fill", cMap);
 
         // draw legend text
         legend.append("text")

@@ -6,22 +6,22 @@
             "shortName": "Overview",
             "versions": {
                 "1.02": {
-                    "date": "07/10/2012",
+                    "date": "2012-07-10",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
                     "usedOPCUAPart": []
                 },
                 "1.03": {
-                    "date": "10/10/2015",
-                    "status": "Release",
+                    "date": "2015-10-10",
+                    "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
                     "usedOPCUAPart": [
                         "opcua_part1_1_02"
                     ]
                 },
-                "1.04.07": {
-                    "date": "10/07/2017",
-                    "status": "Release Candidate",
+                "1.04": {
+                    "date": "2017-11-22",
+                    "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
                     "usedOPCUAPart": [
                         "opcua_part1_1_03"
@@ -150,13 +150,13 @@
             "shortName": "DI",
             "versions": {
                 "1.0": {
-                    "date": "12/09/2009",
-                    "status": "Release",
+                    "date": "2009-12-09",
+                    "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
                     "usedOPCUAPart": []
                 },
                 "1.01": {
-                    "date": "07/25/2013",
+                    "date": "2013-07-25",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
                     "usedOPCUAPart": [
@@ -174,7 +174,7 @@
             "shortName": "ADI",
             "versions": {
                 "1.1": {
-                    "date": "07/30/2013",
+                    "date": "2013-07-30",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
                     "usedOPCUAPart": []
@@ -306,7 +306,7 @@
             "versions": {
                 "1.00": {
                     "date": "2017-01-13",
-                    "status": "Release",
+                    "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/mdis-opc-ua-companion-specification/",
                     "usedOPCUAPart": []
                 },

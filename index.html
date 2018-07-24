@@ -156,6 +156,19 @@
         return ("<dl>" + retVal + "</dl>");
     }
 
+    function mapDisplayData(d) {
+        return {
+            "Name": d.parent.name,
+            "Short Name": d.parent.shortName,
+            "Version": d.version,
+            "Date": d.details.date,
+            "Status": d.details.status,
+            "Link": d.details.link,
+            "Type": getStandardType(d.parent.type),
+            "Standard Type": d.parent.standard_type
+        };
+    }
+
     var date_format = d3.time.format("%b %y");
 
     // setup x
@@ -185,9 +198,13 @@
         .tickFormat(getStandardType)
         .orient("left")
 
+    var widthValue = function(d) {
+        return Math.max(d.parent.shortName.length, d.version.length) * 8;
+    }
+
     // setup fill color
     var cValue = function (d) {
-            return d.status + " " + d.standard_type;
+            return d.details.status + " " + d.parent.standard_type;
         },
         color = d3.scale.category10();
 
@@ -212,6 +229,7 @@
 
     var hideTimeout = null;
 
+    // Create an svg path for the link d
     function linkPathGenerator(d) {
         var path = d3.path();
         var coords = {
@@ -220,15 +238,17 @@
             "x1": xMap(d.source),
             "y1": yMap(d.source),
             "x2": xMap(d.target),
-            "y2": yMap(d.target)
+            "y2": yMap(d.target),
+            "w1": widthValue(d.source),
+            "w2": widthValue(d.target)
         };
         if (coords.y1 === coords.y2){
-            if (coords.x2 + 120 + 30 > coords.x1) {
-                path.moveTo(coords.x1 + 60, coords.y1 + 14);
-                path.bezierCurveTo(coords.x1 + 50, coords.y1 + 40, coords.x2 + 70, coords.y2 + 40, coords.x2 + 60, coords.y2 + 20);
+            if (coords.x2 + coords.w2 + 30 > coords.x1) {
+                path.moveTo(coords.x1 + coords.w1/2, coords.y1 + 14);
+                path.bezierCurveTo(coords.x1 + 50, coords.y1 + 40, coords.x2 + coords.w2 / 3  + 10, coords.y2 + 40, coords.x2 + coords.w2 / 3, coords.y2 + 20);
             } else {
                 path.moveTo(coords.x1, coords.y1);
-                path.lineTo(coords.x2 + 120, coords.y2);
+                path.lineTo(coords.x2 + coords.w2 + 10, coords.y2);
             }
         } else {
             if (coords.y1 < coords.y2) {
@@ -242,6 +262,7 @@
         return path.toString();
     }
 
+    // Adjust all nodes to the new x scale
     function setScale() {
         var spanTotalX = lastDay.getTime() - firstDay.getTime();
         var spanX = spanTotalX / zoom;
@@ -275,33 +296,53 @@
     }
 
     function versionMap(spec, version) {
-        return {"id": spec.id + "_" + version[0].replace(".", "_"), "parent": spec, "version": version[0], "details": version[1]};
+        return {"id": spec.id + "_" + version[0].replace(/\./g, "_"), "parent": spec, "version": version[0], "details": version[1]};
+    }
+
+    // Map all versions of a spec to a flat array with every element containing
+    // all necessary information
+    function versionArr(spec) {
+        return Array.from(Object.entries(spec.versions)).map(function(version) {
+            return versionMap(spec, version);
+        });
     }
 
     // load data
     d3.json("data/cs.json", function (error, data) {
-        /*opcua_data = data.opcua.sort(function(a,b) {
-            var biggest_date = new Date('1/1/2099').getTime();
-            return (a.type * biggest_date + xValue(a) - b.type * biggest_date - xValue(b));
-        });*/
-
         setScale();
 
-        var y_offset = 0;
-        for (var index in opcua_data) {
-            var item = opcua_data[index];
-            item.y_offset = y_offset;
-            y_offset += 32;
-            /*
-            for (var index2 in opcua_data) {
-                if (index == index2)
-                    break;
-                var item2 = opcua_data[index2];
-                if (((item.y_offset != 0) || (item2.y_offset == 0)) && (item.type == item2.type) && (xMap(item2) <= xMap(item)) && ((xMap(item2) + 110) >= xMap(item))) {
-                    item.y_offset = item2.y_offset + 32;
+        // Calculate y offset spec stream
+        // First, calculate width extends of a spec with all its versions
+        for (var index in data.opcua) {
+            var item = data.opcua[index];
+            item.minX = Math.min.apply(null, versionArr(item).map(function(v) {
+                return xMap(v);
+            }));
+            item.maxX = Math.max.apply(null, versionArr(item).map(function(v) {
+                return xMap(v) + widthValue(v);
+            }));
+        }
+        // Then, calculate then minimal offset where the whole series fits
+        for (var index in data.opcua) {
+            var item = data.opcua[index];
+            item.y_offset = 0;
+            do {
+                var success = true;
+                for (var index2 in data.opcua) {
+                    if (index == index2)
+                        break;
+                    var item2 = data.opcua[index2];
+                    if (item.type != item2.type)
+                        continue;
+                    if (item2.y_offset == item.y_offset) {
+                        if (item.maxX > item2.minX && item.minX < item2.maxX) {
+                            item.y_offset += 32;
+                            success = false;
+                            break;
+                        }
+                    }
                 }
-            }*/
-            //opcua_data[index].y_offset = item.y_offset;
+            } while (!success);
         }
 
         // x-axis
@@ -332,13 +373,14 @@
             .style("text-anchor", "start")
             .attr("x", 2);
 
+        // Get all nodes...
         dots = data.opcua.map(function(spec) {
-            return Array.from(Object.entries(spec.versions)).map(function(version) {
-                return versionMap(spec, version);
-            })
+            return versionArr(spec);
         });
+        // ...as flat array
         dots = Array.prototype.concat.apply([], dots);
-        //createLinks
+
+        // Generate dependency links...
         linkArray = dots.map(function (value) {
             retValues = [];
             for (var j = 0; j < value.details.usedOPCUAPart.length; j++) {
@@ -348,7 +390,6 @@
                 var targetId = value.details.usedOPCUAPart[j];
                 var target = undefined
                 for (var i = 0; i < dots.length; i++) {
-                    //console.log(data.opcua[i]);
                     if (dots[i].id === targetId) {
                         target = dots[i];
                     }
@@ -362,8 +403,10 @@
             }
             return retValues;
         });
+        // ...as flat array
         linkArray = Array.prototype.concat.apply([], linkArray);
 
+        // Prepare info box
         d3.select("#info").on("mouseover", function(d) {
             clearTimeout(hideTimeout);
         })
@@ -377,6 +420,7 @@
             }, 500);
         });
 
+        // Generate svg elements for links
         svg.selectAll(".link")
             .data(linkArray)
             .enter().append("path")
@@ -395,6 +439,7 @@
             .style("fill", "none")
             .attr("marker-end", "url(#arrowUsed");
 
+        // Generate svg elements for specs...
         svg.selectAll(".spec")
             .data(data.opcua)
             .enter().append("g")
@@ -402,29 +447,53 @@
             .attr("id", function(d) {
                 return "spec-" + d.id
             })
-            .selectAll(".dot")
+            .selectAll(".dot") // ...and their versions
             .data(function(d) {
-                var v = Array.from(Object.entries(d.versions)).map(function(e) {
-                    return versionMap(d, e);
-                });
-                return v;
+                return versionArr(d);
             })
             .enter().append("g")
             .attr("class", "dot")
             .attr("id", function(d) {
                 return "dot-" + d.id;
             })
+            .on("mouseover", function(d) {
+                svg.selectAll(".dot").filter(function(dd,i){ return dd == d; }).transition().duration(200).style("opacity", 1);
+                svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
+                svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
+                d3.select("#info").html(object2html(mapDisplayData(d))).transition().duration(200).style("opacity", 0.8);
+                d3.select("#info").style("display", "block");
+                var ge = document.getElementById("graph");
+                var ge_cr = ge.getBoundingClientRect();
+                ge_cr.width  -= Number(d3.select('#graph').style('padding-left').replace('px', '')) + Number(d3.select('#graph').style('padding-right').replace('px', ''));
+                ge_cr.height -= Number(d3.select('#graph').style('padding-top' ).replace('px', '')) + Number(d3.select('#graph').style('padding-bottom').replace('px', ''));
+                ge_cr.left   += Number(d3.select('#graph').style('padding-left').replace('px', ''));
+                ge_cr.top    += Number(d3.select('#graph').style('padding-top' ).replace('px', ''));
+                d3.select("#info")
+                    .style('left', xMap(d)*ge_cr.width/ge.viewBox.animVal.width+'px')
+                    .style('top', 36 + yMap(d)*ge_cr.height/ge.viewBox.animVal.height+'px');
+                clearTimeout(hideTimeout);
+            })
+            .on("mouseout", function(d) {
+                clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(function() {
+                    svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
+                    svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+                    d3.select("#info").transition().duration(200).style("opacity", 0);
+                    d3.select("#info").transition().delay(200).style("display", "none");
+                }, 500);
+            })
             .append("rect")
             .attr("x", xMap)
             .attr("y", function (d) {
                 return yMap(d) - 14
             })
-            .attr("width", 110)
+            .attr("width", widthValue)
             .attr("height", 28)
             .attr("rx", 5)
             .attr("ry", 5)
             .style("stroke", function (d) {
-                return color(cValue(d.parent));
+                return color(cValue(d));
             })
             .style("fill", function (d) {
                 return "#fff";
@@ -455,38 +524,6 @@
             .text(function (d) {
                 return d.version;
             });
-            /*
-            .attr("class", "dot")
-            .attr("id", function(d) {
-                return "dot-" + d.id
-            })
-            .on("mouseover", function(d) {
-                svg.selectAll(".dot").filter(function(dd,i){ return dd == d; }).transition().duration(200).style("opacity", 1);
-                svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
-                svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
-                svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
-                d3.select("#info").html(object2html(d)).transition().duration(200).style("opacity", 0.8);
-                d3.select("#info").style("display", "block");
-                var ge = document.getElementById("graph");
-                var ge_cr = ge.getBoundingClientRect();
-                ge_cr.width  -= Number(d3.select('#graph').style('padding-left').replace('px', '')) + Number(d3.select('#graph').style('padding-right').replace('px', ''));
-                ge_cr.height -= Number(d3.select('#graph').style('padding-top' ).replace('px', '')) + Number(d3.select('#graph').style('padding-bottom').replace('px', ''));
-                ge_cr.left   += Number(d3.select('#graph').style('padding-left').replace('px', ''));
-                ge_cr.top    += Number(d3.select('#graph').style('padding-top' ).replace('px', ''));
-                d3.select("#info")
-                    .style('left', xMap(d)*ge_cr.width/ge.viewBox.animVal.width+'px')
-                    .style('top', 36 + yMap(d)*ge_cr.height/ge.viewBox.animVal.height+'px');
-                clearTimeout(hideTimeout);
-            })
-            .on("mouseout", function(d) {
-                clearTimeout(hideTimeout);
-                hideTimeout = setTimeout(function() {
-                    svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
-                    svg.selectAll(".link").transition().duration(200).style("opacity", 1);
-                    d3.select("#info").transition().duration(200).style("opacity", 0);
-                    d3.select("#info").transition().delay(200).style("display", "none");
-                }, 500);
-            })*/
 
         // draw legend
         var legend = svg.selectAll(".legend")
@@ -515,6 +552,8 @@
                 return d;
             });
     });
+
+    // Register an event for scrolling to zoom the x axis
     function scrollEvent(e) {
         var evt = window.event || e;
         var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;

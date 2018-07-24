@@ -264,7 +264,7 @@
         if (coords.y1 === coords.y2){
             if (coords.x2 + coords.w2 + 30 > coords.x1) {
                 path.moveTo(coords.x1 + coords.w1/2, coords.y1 + 14);
-                path.bezierCurveTo(coords.x1 + 50, coords.y1 + 40, coords.x2 + coords.w2 / 3  + 10, coords.y2 + 40, coords.x2 + coords.w2 / 3, coords.y2 + 20);
+                path.bezierCurveTo(coords.x1 + coords.w1/2 - 10, coords.y1 + 40, coords.x2 + coords.w2 / 3  + 10, coords.y2 + 40, coords.x2 + coords.w2 / 3, coords.y2 + 20);
             } else {
                 path.moveTo(coords.x1, coords.y1);
                 path.lineTo(coords.x2 + coords.w2 + 10, coords.y2);

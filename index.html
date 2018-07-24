@@ -175,7 +175,7 @@
     var xValue = function (d) {
             return new Date(d.details.date).getTime();
         }, // data -> value
-        xScale = d3.time.scale().range([0, width - 60]), // value -> display
+        xScale = d3.time.scale().range([0, width - 100]), // value -> display
         xMap = function (d) {
             return xScale(xValue(d));
         }, // data -> display

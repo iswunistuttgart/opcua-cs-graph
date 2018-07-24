@@ -211,7 +211,7 @@
         .orient("left")
 
     var widthValue = function(d) {
-        return Math.max(d.parent.shortName.length, d.version.length) * 8;
+        return Math.max(d.parent.shortName.length, d.version.length, 4) * 8;
     }
 
     // setup fill color

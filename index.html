@@ -67,6 +67,7 @@
 
     #graphContainer {
         position: absolute;
+        width: 100%;
     }
 
     #info {
@@ -155,39 +156,75 @@
         return ("<dl>" + retVal + "</dl>");
     }
 
+    function mapDisplayData(d) {
+        return {
+            "Name": d.parent.name,
+            "Short Name": d.parent.shortName,
+            "Version": d.version,
+            "Date": d.details.date,
+            "Status": d.details.status,
+            "Link": d.details.link,
+            "Type": getStandardType(d.parent.type),
+            "Standard Type": d.parent.standard_type
+        };
+    }
+
     var date_format = d3.time.format("%b %y");
 
     // setup x
     var xValue = function (d) {
-            return new Date(d.date).getTime();
+            return new Date(d.details.date).getTime();
         }, // data -> value
-        xScale = d3.time.scale().range([0, width - 60]), // value -> display
+        xScale = d3.time.scale().range([0, width - 100]), // value -> display
         xMap = function (d) {
             return xScale(xValue(d));
         }, // data -> display
         xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
+    var rowCount = {1:0, 2:0, 3:0, 4:0};
+    var rowOffsets = {1:0, 2:0, 3:0, 4:0};
     function getStandardType(d) {
         types = {1: "application-related", 2: "domain-specific", 3: "generell", 4: "opc ua standard"};
         return Number.isInteger(d) ? types[d] : "";
     }
+    function getScaledStandardType(d) {
+        types = {};
+        typeNames = {1: "application-related", 2: "domain-specific", 3: "generell", 4: "opc ua standard"};
+        totalRowCount = 0;
+        for (index in rowCount) {
+            types[totalRowCount] = typeNames[index];
+            totalRowCount += rowCount[index];
+        }
+        return types[d];
+    }
 
     // setup y
     var yValue = function (d) {
-        return d.type;
+        return d.parent.absoluteRow;
     }; // data -> value
     var yScale = d3.scale.linear().range([height, 0]); // value -> display
     var yMap = function (d) {
-        return yScale(yValue(d)) + d.y_offset - 0.5 * height / 5;
+        return yScale(yValue(d))/* + d.parent.row * 32- 0.5 * height / 5*/;
     }; // data -> display
     var yAxis = d3.svg.axis().scale(yScale)
-        .tickFormat(getStandardType)
+        .tickFormat(getScaledStandardType)
         .orient("left")
+
+    var widthValue = function(d) {
+        return Math.max(d.parent.shortName.length, d.version.length, 4) * 8;
+    }
 
     // setup fill color
     var cValue = function (d) {
-            return d.status + " " + d.standard_type;
+            return d.details.status + " " + d.parent.standard_type;
         },
+        cMap = function(d) {
+            if ((d.indexOf("old") !== -1) || (d.indexOf("Old") !== -1)) {
+                return "#999";
+            } else {
+                return color(d);
+            }
+        }
         color = d3.scale.category10();
 
     // add the graph canvas to the body of the webpage
@@ -211,6 +248,7 @@
 
     var hideTimeout = null;
 
+    // Create an svg path for the link d
     function linkPathGenerator(d) {
         var path = d3.path();
         var coords = {
@@ -219,15 +257,17 @@
             "x1": xMap(d.source),
             "y1": yMap(d.source),
             "x2": xMap(d.target),
-            "y2": yMap(d.target)
+            "y2": yMap(d.target),
+            "w1": widthValue(d.source),
+            "w2": widthValue(d.target)
         };
         if (coords.y1 === coords.y2){
-            if (coords.x2 + 120 + 30 > coords.x1) {
-                path.moveTo(coords.x1 + 60, coords.y1 + 14);
-                path.bezierCurveTo(coords.x1 + 50, coords.y1 + 40, coords.x2 + 70, coords.y2 + 40, coords.x2 + 60, coords.y2 + 20);
+            if (coords.x2 + coords.w2 + 30 > coords.x1) {
+                path.moveTo(coords.x1 + coords.w1/2, coords.y1 + 14);
+                path.bezierCurveTo(coords.x1 + coords.w1/2 - 10, coords.y1 + 40, coords.x2 + coords.w2 / 3  + 10, coords.y2 + 40, coords.x2 + coords.w2 / 3, coords.y2 + 20);
             } else {
                 path.moveTo(coords.x1, coords.y1);
-                path.lineTo(coords.x2 + 120, coords.y2);
+                path.lineTo(coords.x2 + coords.w2 + 10, coords.y2);
             }
         } else {
             if (coords.y1 < coords.y2) {
@@ -241,10 +281,10 @@
         return path.toString();
     }
 
+    // Adjust all nodes to the new x scale
     function setScale() {
         var spanTotalX = lastDay.getTime() - firstDay.getTime();
         var spanX = spanTotalX / zoom;
-        yScale.domain([0, 5]);
         xScale.domain([firstDay.getTime() + (spanTotalX * scrollX) - (spanX / 2), firstDay.getTime() + (spanTotalX * scrollX) + (spanX / 2)]);
         var dots = svg.selectAll(".dot");
         dots.select("rect")
@@ -273,28 +313,85 @@
                 .call(xAxis);
     }
 
+    function versionMap(spec, version) {
+        return {"id": spec.id + "_" + version[0].replace(/\./g, "_"), "parent": spec, "version": version[0], "details": version[1]};
+    }
+
+    // Map all versions of a spec to a flat array with every element containing
+    // all necessary information
+    function versionArr(spec) {
+        return Array.from(Object.entries(spec.versions)).map(function(version) {
+            return versionMap(spec, version);
+        });
+    }
+
     // load data
     d3.json("data/cs.json", function (error, data) {
-        opcua_data = data.opcua.sort(function(a,b) {
-            var biggest_date = new Date('1/1/2099').getTime();
-            return (a.type * biggest_date + xValue(a) - b.type * biggest_date - xValue(b));
-        });
-
         setScale();
 
-        for (var index in opcua_data) {
-            var item = opcua_data[index];
-            item.y_offset = 0;
-            for (var index2 in opcua_data) {
-                if (index == index2)
-                    break;
-                var item2 = opcua_data[index2];
-                if (((item.y_offset != 0) || (item2.y_offset == 0)) && (item.type == item2.type) && (xMap(item2) <= xMap(item)) && ((xMap(item2) + 110) >= xMap(item))) {
-                    item.y_offset = item2.y_offset + 32;
-                }
-            }
-            //opcua_data[index].y_offset = item.y_offset;
+        // Calculate y offset spec stream
+        // First, calculate width extends of a spec with all its versions
+        for (var index in data.opcua) {
+            var item = data.opcua[index];
+            item.minX = Math.min.apply(null, versionArr(item).map(function(v) {
+                return xMap(v);
+            }));
+            item.maxX = Math.max.apply(null, versionArr(item).map(function(v) {
+                return xMap(v) + widthValue(v);
+            }));
         }
+        // Then, calculate then minimal offset where the whole series fits
+        for (var index in data.opcua) {
+            var item = data.opcua[index];
+            item.row = 0;
+            do {
+                var success = true;
+                for (var index2 in data.opcua) {
+                    if (index == index2)
+                        break;
+                    var item2 = data.opcua[index2];
+                    if (item.type != item2.type)
+                        continue;
+                    if (item2.row == item.row) {
+                        if (item.maxX > item2.minX && item.minX < item2.maxX) {
+                            item.row += 1;
+                            success = false;
+                            break;
+                        }
+                    }
+                }
+            } while (!success);
+            if (rowCount[item.type] <= item.row)
+                rowCount[item.type] = item.row + 1;
+        }
+        totalRowCount = 0;
+        for (var index in rowCount) {
+            rowOffsets[index] = totalRowCount;
+            for (var index2 in data.opcua) {
+                var item = data.opcua[index2];
+                if (item.type == index)
+                    item.absoluteRow = totalRowCount + item.row;
+            }
+            totalRowCount += rowCount[index];
+        }
+        yScale.domain([-1, totalRowCount - 1]);
+
+        svg.selectAll(".typeBars")
+            .data(Array.from(Object.entries(rowCount)))
+            .enter()
+            .append("rect")
+            .attr("class", "typeBars")
+            .attr("x", 0)
+            .attr("y", function(d) {
+                return yScale(rowOffsets[d[0]] + d[1] - 0.5);
+            })
+            .attr("width", width)
+            .attr("height", function(d) {
+                return yScale(rowOffsets[d[0]]) - yScale(rowOffsets[d[0]] + d[1]);
+            })
+            .style("fill", function(d,i) {
+                return (i % 2) ? "#eee" : "none";
+            });
 
         // x-axis
         svg.append("g")
@@ -324,33 +421,40 @@
             .style("text-anchor", "start")
             .attr("x", 2);
 
+        // Get all nodes...
+        dots = data.opcua.map(function(spec) {
+            return versionArr(spec);
+        });
+        // ...as flat array
+        dots = Array.prototype.concat.apply([], dots);
 
-        //createLinks
-        linkArray = data.opcua.map(function (value) {
+        // Generate dependency links...
+        linkArray = dots.map(function (value) {
             retValues = [];
-            for (var j = 0; j < value.usedOPCUAPart.length; j++) {
-                if (value.usedOPCUAPart[j] == undefined) {
+            for (var j = 0; j < value.details.usedOPCUAPart.length; j++) {
+                if (value.details.usedOPCUAPart[j] == undefined) {
                     return;
                 }
-                var targetId = value.usedOPCUAPart[j];
+                var targetId = value.details.usedOPCUAPart[j];
                 var target = undefined
-                for (var i = 0; i < data.opcua.length; i++) {
-                    //console.log(data.opcua[i]);
-                    if (data.opcua[i].id === targetId) {
-                        target = data.opcua[i];
+                for (var i = 0; i < dots.length; i++) {
+                    if (dots[i].id === targetId) {
+                        target = dots[i];
                     }
                 }
 
                 retValues.push({
                     "source": value,
-                    "usedOPCUAPart": value.usedOPCUAPart[j],
+                    "usedOPCUAPart": value.details.usedOPCUAPart[j],
                     "target": target
                 });
             }
             return retValues;
         });
+        // ...as flat array
         linkArray = Array.prototype.concat.apply([], linkArray);
 
+        // Prepare info box
         d3.select("#info").on("mouseover", function(d) {
             clearTimeout(hideTimeout);
         })
@@ -364,6 +468,7 @@
             }, 500);
         });
 
+        // Generate svg elements for links
         svg.selectAll(".link")
             .data(linkArray)
             .enter().append("path")
@@ -382,19 +487,29 @@
             .style("fill", "none")
             .attr("marker-end", "url(#arrowUsed");
 
-        svg.selectAll(".dot")
+        // Generate svg elements for specs...
+        svg.selectAll(".spec")
             .data(data.opcua)
+            .enter().append("g")
+            .attr("class", "spec")
+            .attr("id", function(d) {
+                return "spec-" + d.id
+            })
+            .selectAll(".dot") // ...and their versions
+            .data(function(d) {
+                return versionArr(d);
+            })
             .enter().append("g")
             .attr("class", "dot")
             .attr("id", function(d) {
-                return "dot-" + d.id
+                return "dot-" + d.id;
             })
             .on("mouseover", function(d) {
                 svg.selectAll(".dot").filter(function(dd,i){ return dd == d; }).transition().duration(200).style("opacity", 1);
                 svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
                 svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
                 svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
-                d3.select("#info").html(object2html(d)).transition().duration(200).style("opacity", 0.8);
+                d3.select("#info").html(object2html(mapDisplayData(d))).transition().duration(200).style("opacity", 0.8);
                 d3.select("#info").style("display", "block");
                 var ge = document.getElementById("graph");
                 var ge_cr = ge.getBoundingClientRect();
@@ -421,12 +536,12 @@
             .attr("y", function (d) {
                 return yMap(d) - 14
             })
-            .attr("width", 110)
+            .attr("width", widthValue)
             .attr("height", 28)
             .attr("rx", 5)
             .attr("ry", 5)
             .style("stroke", function (d) {
-                return color(cValue(d));
+                return cMap(cValue(d));
             })
             .style("fill", function (d) {
                 return "#fff";
@@ -446,7 +561,7 @@
                 return yMap(d) - 5
             })
             .text(function (d) {
-                return d.shortName.length < 20 ? d.shortName : d.shortName.substr(0, 5) + "...";
+                return d.parent.shortName.length < 20 ? d.parent.shortName : d.parent.shortName.substr(0, 5) + "...";
             }).append("tspan")
             .attr("x", function (d) {
                 return xMap(d) + 3
@@ -460,31 +575,33 @@
 
         // draw legend
         var legend = svg.selectAll(".legend")
-            .data(color.domain())
+            .data(["Old Specification"].concat(color.domain()))
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function (d, i) {
-                return "translate(0," + i * 20 + ")";
+                return "translate(" + (10 + i * width/4) + ", 0)";
             });
 
         // draw legend colored rectangles
         legend.append("rect")
             .attr("x", 0)
-            .attr("y", height - 100)
+            .attr("y", height - 30)
             .attr("width", 18)
             .attr("height", 18)
-            .style("fill", color);
+            .style("fill", cMap);
 
         // draw legend text
         legend.append("text")
             .attr("x", 20)
-            .attr("y", height - 95)
+            .attr("y", height - 25)
             .attr("dy", ".35em")
             .style("text-anchor", "start")
             .text(function (d) {
                 return d;
             });
     });
+
+    // Register an event for scrolling to zoom the x axis
     function scrollEvent(e) {
         var evt = window.event || e;
         var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;

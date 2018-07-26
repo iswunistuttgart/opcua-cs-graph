@@ -120,7 +120,7 @@
 <script>
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
-        height = 800 - margin.top - margin.bottom;
+        height = 1200 - margin.top - margin.bottom;
     var opcua_data = null;
 
     /*
@@ -240,7 +240,7 @@
     // add the graph canvas to the body of the webpage
     var svg = d3.select("#graph")
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 960 800")
+        .attr("viewBox", "0 0 960 1200")
         .attr("class", "col-sm")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

@@ -554,9 +554,7 @@
             .style("stroke", function (d) {
                 return cMap(cValue(d));
             })
-            .style("fill", function (d) {
-                return "#fff";
-            })
+            .style("fill", "#fff")
             .style("stroke-width", function (d) {
                 return "2";
             })
@@ -602,17 +600,39 @@
             .attr("y", height - 30)
             .attr("width", 18)
             .attr("height", 18)
-            .style("fill", cMap);
+            .style("stroke", cMap)
+            .style("fill", "#fff")
+            .style("stroke-width", "2");
 
         // draw legend text
         legend.append("text")
-            .attr("x", 20)
+            .attr("x", 25)
             .attr("y", height - 25)
             .attr("dy", ".35em")
             .style("text-anchor", "start")
             .text(function (d) {
                 return d;
             });
+        var sLegend = svg.selectAll(".slegend")
+            .data(["a"])
+            .enter().append("g")
+            .attr("class", "legend");
+        sLegend.append("rect")
+            .attr("x", 10 + width * 3 / 4 )
+            .attr("y", height - 30)
+            .attr("width", 18)
+            .attr("height", 18)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .style("stroke", "#999")
+            .style("fill", "#fff")
+            .style("stroke-width", "2")
+            .style("stroke-dasharray", "5,5");
+        sLegend.append("text")
+            .attr("x", 35 + width * 3 / 4 )
+            .attr("y", height - 25)
+            .attr("dy", ".35em")
+            .text("Release Candidate");
     });
 
     // Register an event for scrolling to zoom the x axis

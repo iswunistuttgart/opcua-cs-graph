@@ -220,6 +220,9 @@
 
     // setup fill color
     var cValue = function (d) {
+            if ((d.details.status.indexOf("old") !== -1) || (d.details.status.indexOf("Old") !== -1)) {
+                return "Old Specification";
+            }
             return d.parent.standard_type;
         },
         cMap = function(d) {

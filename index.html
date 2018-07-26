@@ -385,6 +385,7 @@
             totalRowCount += rowCount[index];
         }
         yScale.domain([-2, totalRowCount - 1]);
+        yAxis.ticks(totalRowCount + 2);
 
         svg.selectAll(".typeBars")
             .data(Array.from(Object.entries(rowCount)))

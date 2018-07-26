@@ -337,7 +337,7 @@
             "versions": {
                 "1.02": {
                     "date": "2012-08-01",
-                    "status": "Release",
+                    "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-11-historical-access/",
                     "usedOPCUAPart": []
                 },

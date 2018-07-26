@@ -216,7 +216,7 @@
 
     // setup fill color
     var cValue = function (d) {
-            return d.details.status + " " + d.parent.standard_type;
+            return d.parent.standard_type;
         },
         cMap = function(d) {
             if ((d.indexOf("old") !== -1) || (d.indexOf("Old") !== -1)) {
@@ -226,6 +226,16 @@
             }
         }
         color = d3.scale.category10();
+    var sValue = function(d) {
+            return d.details.status;
+        },
+        sMap = function(d) {
+            if (d.indexOf("Candidate") !== -1) {
+                return "5,5";
+            } else {
+                return "1,0";
+            }
+        };
 
     // add the graph canvas to the body of the webpage
     var svg = d3.select("#graph")
@@ -263,8 +273,8 @@
         };
         if (coords.y1 === coords.y2){
             if (coords.x2 + coords.w2 + 30 > coords.x1) {
-                path.moveTo(coords.x1 + coords.w1/2, coords.y1 + 14);
-                path.bezierCurveTo(coords.x1 + coords.w1/2 - 10, coords.y1 + 40, coords.x2 + coords.w2 / 3  + 10, coords.y2 + 40, coords.x2 + coords.w2 / 3, coords.y2 + 20);
+                path.moveTo(coords.x1 + coords.w1/3, coords.y1 + 14);
+                path.bezierCurveTo(coords.x1 + coords.w1/3 - 10, coords.y1 + 40, coords.x2 + coords.w2 * 2 / 3  + 10, coords.y2 + 40, coords.x2 + coords.w2 * 2 / 3, coords.y2 + 20);
             } else {
                 path.moveTo(coords.x1, coords.y1);
                 path.lineTo(coords.x2 + coords.w2 + 10, coords.y2);
@@ -374,7 +384,7 @@
             }
             totalRowCount += rowCount[index];
         }
-        yScale.domain([-1, totalRowCount - 1]);
+        yScale.domain([-2, totalRowCount - 1]);
 
         svg.selectAll(".typeBars")
             .data(Array.from(Object.entries(rowCount)))
@@ -548,6 +558,9 @@
             })
             .style("stroke-width", function (d) {
                 return "2";
+            })
+            .style("stroke-dasharray", function(d) {
+                return sMap(sValue(d));
             })
             .select(function() { return this.parentElement; })
             .append("text")

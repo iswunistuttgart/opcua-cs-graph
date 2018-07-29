@@ -24,6 +24,7 @@
 <style>
     body {
         font: 11px sans-serif;
+        touch-action: none;
     }
 
     header div {
@@ -67,6 +68,12 @@
 
     svg {
         float: left;
+        -webkit-touch-callout: none; /* iOS Safari */
+          -webkit-user-select: none; /* Safari */
+           -khtml-user-select: none; /* Konqueror HTML */
+             -moz-user-select: none; /* Firefox */
+              -ms-user-select: none; /* Internet Explorer/Edge */
+                  user-select: none;
     }
 
     #outerContainer {
@@ -674,18 +681,22 @@
             .text("Release Candidate");
     });
 
-    // Register an event for scrolling to zoom the x axis
-    function scrollEvent(e) {
-        var evt = window.event || e;
-        var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;
-        var old_zoom = zoom;
-        var offsetX = e.pageX - graphOffset;
+    function zoomRelative(delta, offsetX) {
         var offsetDeltaX = (offsetX * 1.0 / document.getElementById('graph').parentElement.clientWidth - 0.5);
         scrollX += offsetDeltaX / zoom * delta * 0.0002;// + scrollX * (1.0 - 1.0/zoom);
         zoom = zoom + delta * 0.0002;
         zoom = Math.max(1.0, Math.min(zoom, 10.0));
         scrollX = Math.min(1.0 - 0.5 / zoom, Math.max(0.5 / zoom, scrollX));
         setScale();
+    }
+
+    // Register an event for scrolling to zoom the x axis
+    function scrollEvent(e) {
+        var evt = window.event || e;
+        var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;
+        var old_zoom = zoom;
+        var offsetX = e.pageX - graphOffset;
+        zoomRelative(delta, offsetX);
         if (zoom != old_zoom)
             evt.preventDefault();
     };
@@ -693,6 +704,39 @@
     svgDOM.addEventListener("mousewheel", scrollEvent);
     svgDOM.addEventListener("DOMMouseScroll", scrollEvent);
 
+    // Zoom via gesture
+    var prevDiff = -1;
+    var prevX = -1;
+    svgDOM.ontouchstart = function(e) {
+    }
+    svgDOM.ontouchend = function(e) {
+        if (e.touches.length <= 2) prevDiff = -1;
+        if (e.touches.length <= 1) prevX = -1;
+    }
+    svgDOM.ontouchmove = function(e) {
+        if (e.touches.length == 1) {
+            if (prevX > 0) {
+                var offsetDeltaX = ((e.touches[0].pageX - prevX) * -1 / document.getElementById('graph').parentElement.clientWidth);
+                scrollX += offsetDeltaX / zoom;
+                scrollX = Math.min(1.0 - 0.5 / zoom, Math.max(0.5 / zoom, scrollX));
+                setScale();
+            }
+            prevX = e.touches[0].pageX;
+        } else if (e.touches.length == 2) {
+            var curDiff = Math.abs(e.touches[0].pageX - e.touches[1].pageX) * 100;
+            var curX = (e.touches[0].pageX + e.touches[1].pageX) / 2;
+
+            if (prevDiff > 0) {
+                zoomRelative(curDiff - prevDiff, curX - graphOffset);
+            }
+
+            // Cache the distance for the next move event
+            prevDiff = curDiff;
+            e.preventDefault();
+        }
+    }
+
+    // Window resize handling
     window.onresize = function(e) {
         updateOffsets();
         setScale();

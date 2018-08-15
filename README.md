@@ -30,5 +30,5 @@ Feel free to edit the framework and improve user experience.
 * Bootstrap
 
 ## License
-Published under GNU General Public License v3.0 by [Institut f&uuml;r Steuerungstechnik der Werkzeugmaschinen und Fertigungseinrichtungen (ISW)](https://www.isw.uni-stuttgart.de)
+Published under GNU General Public License v3.0 by [Institute for Control Engineering of Machine Tools and Manufacturing Units (ISW)](https://www.isw.uni-stuttgart.de)
 Universit&auml;t Stuttgart, 2018

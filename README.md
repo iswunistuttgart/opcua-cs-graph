@@ -7,7 +7,7 @@ The Website shows a visualization of dependencies between OPC UA (OPC Unified Ar
 
 ## Usage
 ### For visitors
-Just visit https://iswunistuttgart.github.io/opcua-cs-graph/ and scroll through the graph to discover dependencies.
+Just visit the [OPC UA Companion Specification Graph](https://iswunistuttgart.github.io/opcua-cs-graph/) and scroll through the graph to discover dependencies.
 
 ### For contributors
 #### Adding new (Companion) Specification

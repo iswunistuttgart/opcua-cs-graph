@@ -21,6 +21,10 @@ Feel free to edit the framework and improve user experience.
 * [@Kantiran91](https://github.com/Kantiran91)
 * [@digitalshow](https://github.com/digitalshow)
 
+## Contribution
+* [ISW, Universit&auml;t Stuttgart](https://www.isw.uni-stuttgart.de)
+* [TRUMPF GmbH + Co. KG](https://www.trumpf.com/)
+
 ## References
 * D3
 * Bootstrap

@@ -687,6 +687,38 @@
             "type": 2,
             "standard_type": "Companion Specification",
             "nodeset": ""
+        },
+        {
+            "id": "euromap83",
+            "name": "OPC UA interfaces for plastics and rubber machinery – General Type definitions",
+            "shortName": "EUROMAP 83",
+            "versions": {
+                "1.0": {
+                    "date": "2018-05-04",
+                    "status": "Release",
+                    "link": "http://www.euromap.org/en/euromap83/",
+                    "usedOPCUAPart": ["cs_di_1_01"]
+                }
+            },
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": ""
+        },
+        {
+            "id": "euromap77",
+            "name": "OPC UA interfaces for plastics and rubber machinery – Data exchange between injection moulding machines and MES",
+            "shortName": "EUROMAP 77",
+            "versions": {
+                "1.0": {
+                    "date": "2018-05-04",
+                    "status": "Release",
+                    "link": "http://www.euromap.org/en/euromap83/",
+                    "usedOPCUAPart": ["euromap83_1_0","cs_di_1_01"]
+                }
+            },
+            "type": 1,
+            "standard_type": "Companion Specification",
+            "nodeset": ""
         }
     ]
 }

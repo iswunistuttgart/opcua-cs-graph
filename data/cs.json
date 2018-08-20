@@ -479,7 +479,7 @@
                 "1.0": {
                     "date": "2016-04-18",
                     "status": "Release",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-autoid/",
                     "usedOPCUAPart": ["cs_di_1_01"]
                 }
             },

@@ -447,7 +447,7 @@
             "id": "cs_adi",
             "name": "OPC Unified Architecture for Analyzer Devices (ADI)",
             "shortName": "ADI",
-            "versions": {                
+            "versions": {
                 "1.0": {
                 "date": "2009-10-01",
                 "status": "Release (old)",
@@ -712,7 +712,7 @@
                 "1.0": {
                     "date": "2018-05-04",
                     "status": "Release",
-                    "link": "http://www.euromap.org/en/euromap83/",
+                    "link": "http://www.euromap.org/en/euromap77/",
                     "usedOPCUAPart": ["euromap83_1_0","cs_di_1_01"]
                 }
             },

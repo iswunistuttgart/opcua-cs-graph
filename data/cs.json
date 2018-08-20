@@ -9,14 +9,15 @@
                     "date": "2012-07-10",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-10-10",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
                     "usedOPCUAPart": [
-                        "opcua_part1_1_02"
+                        {"id": "opcua_part1", "version": "1.02"}
                     ]
                 },
                 "1.04": {
@@ -24,7 +25,7 @@
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-1-overview-and-concepts/",
                     "usedOPCUAPart": [
-                        "opcua_part1_1_03"
+                        {"id": "opcua_part1", "version": "1.03"}
                     ]
                 }
             },
@@ -41,19 +42,24 @@
                     "date": "2012-07-10",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-2-security-model/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-11-25",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-2-security-model/",
-                    "usedOPCUAPart": ["opcua_part2_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part2", "version": "1.02"}
+                    ]
                 },
                 "1.04.18": {
                     "date": "2018-05-15",
                     "status": "Release Candidate",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-2-security-model/",
-                    "usedOPCUAPart": ["opcua_part2_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part2", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -69,25 +75,32 @@
                     "date": "2012-07-10",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-3-address-space-model/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-07-20",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-3-address-space-model/",
-                    "usedOPCUAPart": ["opcua_part3_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part3", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-3-address-space-model/",
-                    "usedOPCUAPart": ["opcua_part3_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part3", "version": "1.03"}
+                    ]
                 },
                 "1.04a": {
                     "date": "2018-04-04",
                     "status": "Release Candidate",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-3-address-space-model/",
-                    "usedOPCUAPart": ["opcua_part3_1_04"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part3", "version": "1.04"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -103,19 +116,24 @@
                     "date": "2012-03-18",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-4-services/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-07-20",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-4-services/",
-                    "usedOPCUAPart": ["opcua_part4_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part4", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-4-services/",
-                    "usedOPCUAPart": ["opcua_part4_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part4", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -131,14 +149,15 @@
                     "date": "2006-07-28",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.01": {
                     "date": "2009-02-06",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
                     "usedOPCUAPart": [
-                        "opcua_part5_1_00"
+                        {"id": "opcua_part5", "version": "1.00"}
                     ]
                 },
                 "1.02": {
@@ -146,7 +165,7 @@
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
                     "usedOPCUAPart": [
-                        "opcua_part5_1_01"
+                        {"id": "opcua_part5", "version": "1.01"}
                     ]
                 },
                 "1.03": {
@@ -154,7 +173,7 @@
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
                     "usedOPCUAPart": [
-                        "opcua_part5_1_02"
+                        {"id": "opcua_part5", "version": "1.02"}
                     ]
                 },
                 "1.04": {
@@ -162,7 +181,7 @@
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-5-information-model/",
                     "usedOPCUAPart": [
-                        "opcua_part5_1_03"
+                        {"id": "opcua_part5", "version": "1.03"}
                     ]
                 }
             },
@@ -179,19 +198,24 @@
                     "date": "2012-03-18",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-6-mappings/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-07-20",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-6-mappings/",
-                    "usedOPCUAPart": ["opcua_part6_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part6", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-6-mappings/",
-                    "usedOPCUAPart": ["opcua_part6_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part6", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -207,19 +231,24 @@
                     "date": "2013-04-17",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-7-profiles/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-12-11",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-7-profiles/",
-                    "usedOPCUAPart": ["opcua_part7_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part7", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-7-profiles/",
-                    "usedOPCUAPart": ["opcua_part7_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part7", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -235,14 +264,15 @@
                     "date": "2006-09-25",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.01": {
                     "date": "2009-02-06",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
                     "usedOPCUAPart": [
-                        "opcua_part8_1_00"
+                        {"id": "opcua_part8", "version": "1.00"}
                     ]
                 },
                 "1.02": {
@@ -250,7 +280,7 @@
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
                     "usedOPCUAPart": [
-                        "opcua_part8_1_01"
+                        {"id": "opcua_part8", "version": "1.01"}
                     ]
                 },
                     "1.03": {
@@ -258,7 +288,7 @@
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
                     "usedOPCUAPart": [
-                        "opcua_part8_1_02"
+                        {"id": "opcua_part8", "version": "1.02"}
                     ]
                 },
                 "1.04": {
@@ -266,7 +296,7 @@
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-8-data-access/",
                     "usedOPCUAPart": [
-                        "opcua_part8_1_03"
+                        {"id": "opcua_part8", "version": "1.03"}
                     ]
                 }
             },
@@ -283,19 +313,24 @@
                     "date": "2012-03-18",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-9-alarms-and-conditions/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2016-03-04",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-9-alarms-and-conditions/",
-                    "usedOPCUAPart": ["opcua_part9_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part9", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-9-alarms-and-conditions/",
-                    "usedOPCUAPart": ["opcua_part9_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part9", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -311,19 +346,24 @@
                     "date": "2012-03-18",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-10-programs/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-07-20",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-10-programs/",
-                    "usedOPCUAPart": ["opcua_part10_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part10", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-10-programs/",
-                    "usedOPCUAPart": ["opcua_part10_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part10", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -339,13 +379,16 @@
                     "date": "2012-08-01",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-11-historical-access/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-12-11",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-11-historical-access/",
-                    "usedOPCUAPart": ["opcua_part11_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part11", "version": "1.02"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -361,13 +404,16 @@
                     "date": "2015-07-20",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-12-discovery-and-global-services/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.04": {
                     "date": "2018-02-07",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-12-discovery-and-global-services/",
-                    "usedOPCUAPart": ["opcua_part12_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part12", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -383,19 +429,24 @@
                     "date": "2012-03-18",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-13-aggregates/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.03": {
                     "date": "2015-07-20",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-13-aggregates/",
-                    "usedOPCUAPart": ["opcua_part13_1_02"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part13", "version": "1.02"}
+                    ]
                 },
                 "1.04": {
                     "date": "2017-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-13-aggregates/",
-                    "usedOPCUAPart": ["opcua_part13_1_03"]
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part13", "version": "1.03"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -411,7 +462,8 @@
                     "date": "2018-02-06",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-14-pubsub/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "nodeset": "",
@@ -427,15 +479,16 @@
                     "date": "2009-12-09",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.01": {
                     "date": "2013-07-25",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
                     "usedOPCUAPart": [
-                        "opcua_part1_1_02",
-                        "cs_di_1_0"
+                        {"id": "opcua_part1", "version": "1.02"},
+                        {"id": "cs_di", "version": "1.0"}
                     ]
                 }
             },
@@ -449,22 +502,30 @@
             "shortName": "ADI",
             "versions": {
                 "1.0": {
-                "date": "2009-10-01",
-                "status": "Release (old)",
-                "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
-                "usedOPCUAPart": ["cs_di_1_0"]
+                    "date": "2009-10-01",
+                    "status": "Release (old)",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.0"}
+                    ]
                 },
                 "1.1": {
                     "date": "2013-07-30",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
-                    "usedOPCUAPart": ["cs_adi_1_0","cs_di_1_0"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_adi", "version": "1.0"},
+                        {"id": "cs_di", "version": "1.0"}
+                    ]
                 },
                 "1.1a": {
                     "date": "2015-01-09",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-analyzer-devices-adi/",
-                    "usedOPCUAPart": ["cs_adi_1_1","cs_di_1_01"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_adi", "version": "1.1"},
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
                 }
             },
             "type": 2,
@@ -480,7 +541,9 @@
                     "date": "2016-04-18",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-autoid/",
-                    "usedOPCUAPart": ["cs_di_1_01"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
                 }
             },
             "type": 2,
@@ -496,7 +559,9 @@
                     "date": "2010-03-18",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-plcopen-information-model/",
-                    "usedOPCUAPart": ["cs_di_1_0"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.0"}
+                    ]
                 }
             },
             "type": 2,
@@ -512,7 +577,9 @@
                     "date": "2017-04-11",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-sercos-devices/",
-                    "usedOPCUAPart": ["cs_di_1_01"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
                 }
             },
             "type": 3,
@@ -528,7 +595,8 @@
                     "date": "2016-02-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-automationml/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "type": 3,
@@ -547,7 +615,8 @@
                     "date": "2013-10-30",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/isa-95-common-object-model/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "type": 3,
@@ -563,7 +632,8 @@
                     "date": "2017-07-07",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-cnc-systems/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "type": 1,
@@ -579,7 +649,9 @@
                     "date": "2016-11-22",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-fdt/",
-                    "usedOPCUAPart": ["cs_di_1_0"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.0"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -595,7 +667,8 @@
                     "date": "2017-11-28",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/cspplusformachine-opc-ua-companion-specification/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "nodeset": "",
@@ -611,7 +684,8 @@
                     "date": "2018-02-05",
                     "status": "Release Candidate",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-iec61850/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "nodeset": "",
@@ -627,7 +701,8 @@
                     "date": "2017-12-06",
                     "status": "Release Candidate",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-packml-companion-specification/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "nodeset": "",
@@ -643,7 +718,9 @@
                     "date": "2017-11-15",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-powerlink-companion-specification/",
-                    "usedOPCUAPart": ["cs_di_1_01"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
                 }
             },
             "type": 3,
@@ -659,13 +736,16 @@
                     "date": "2017-01-13",
                     "status": "Release (old)",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/mdis-opc-ua-companion-specification/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 },
                 "1.01": {
                     "date": "2017-10-18",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/mdis-opc-ua-companion-specification/",
-                    "usedOPCUAPart": ["cs_mdis_1_00"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_mdis", "version": "1.00"}
+                    ]
                 }
             },
             "type": 3,
@@ -681,7 +761,8 @@
                     "date": "2017-11-08",
                     "status": "Release",
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-for-tobacco-machines-companion-specification/",
-                    "usedOPCUAPart": []
+                    "usedOPCUAPart": [
+                    ]
                 }
             },
             "type": 2,
@@ -697,7 +778,9 @@
                     "date": "2018-05-04",
                     "status": "Release",
                     "link": "http://www.euromap.org/en/euromap83/",
-                    "usedOPCUAPart": ["cs_di_1_01"]
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
                 }
             },
             "type": 2,
@@ -713,7 +796,10 @@
                     "date": "2018-05-04",
                     "status": "Release",
                     "link": "http://www.euromap.org/en/euromap77/",
-                    "usedOPCUAPart": ["euromap83_1_0","cs_di_1_01"]
+                    "usedOPCUAPart": [
+                        {"id": "euromap83", "version": "1.0"},
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
                 }
             },
             "type": 1,

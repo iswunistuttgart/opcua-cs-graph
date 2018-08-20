@@ -484,6 +484,9 @@
                     return;
                 }
                 var targetId = value.details.usedOPCUAPart[j];
+                if (typeof(targetId) == "object") {
+                    targetId = targetId.id + '_' + targetId.version.replace(/\./g, '_');
+                }
                 var target = undefined
                 for (var i = 0; i < dots.length; i++) {
                     if (dots[i].id === targetId) {

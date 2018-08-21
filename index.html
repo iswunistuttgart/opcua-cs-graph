@@ -195,12 +195,12 @@
     var rowCount = {1:0, 2:0, 3:0, 4:0};
     var rowOffsets = {1:0, 2:0, 3:0, 4:0};
     function getStandardType(d) {
-        types = {1: "application-related", 2: "domain-specific", 3: "generell", 4: "opc ua standard"};
+        types = {1: "application-related", 2: "domain-specific", 3: "general", 4: "opc ua standard"};
         return Number.isInteger(d) ? types[d] : "";
     }
     function getScaledStandardType(d) {
         types = {};
-        typeNames = {1: "application-related", 2: "domain-specific", 3: "generell", 4: "opc ua standard"};
+        typeNames = {1: "application-related", 2: "domain-specific", 3: "general", 4: "opc ua standard"};
         totalRowCount = 0;
         for (index in rowCount) {
             types[totalRowCount] = typeNames[index];

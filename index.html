@@ -1,136 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-102889108-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-102889108-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-  gtag('config', 'UA-102889108-2');
-</script>
-<!-- END Google Analytics -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+        gtag('config', 'UA-102889108-2');
+    </script>
+    <!-- END Google Analytics -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
-<title>OPC UA Companion Specification Graph</title>
+    <title>OPC UA Companion Specification Graph</title>
 
-<!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
-<!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
-<!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
+    <!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
+    <!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
+    <!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
+    <link rel="stylesheet" href="style.css">
 
-<style>
-    body {
-        font: 11px sans-serif;
-        touch-action: none;
-    }
-
-    header div {
-        vertical-align: middle;
-    }
-
-    header h4 {
-        display: inline;
-    }
-
-    header img {
-        max-height: 4em;
-    }
-
-    .container {
-        max-width: 140vh !important;
-    }
-
-    .axis path,
-    .axis line {
-        fill: none;
-        stroke: #000;
-        shape-rendering: crispEdges;
-    }
-
-    .dot rect {
-        stroke: #000;
-    }
-
-    .link {
-        stroke: #999;
-        stroke-width: 2px;
-    }
-
-    .tooltip {
-        position: absolute;
-        width: 200px;
-        height: 28px;
-        pointer-events: none;
-    }
-
-    svg {
-        float: left;
-        -webkit-touch-callout: none; /* iOS Safari */
-          -webkit-user-select: none; /* Safari */
-           -khtml-user-select: none; /* Konqueror HTML */
-             -moz-user-select: none; /* Firefox */
-              -ms-user-select: none; /* Internet Explorer/Edge */
-                  user-select: none;
-    }
-
-    #outerContainer {
-        margin: 0 auto;
-        width: 90%;
-    }
-
-    #graphContainer {
-        position: absolute;
-        width: 90%;
-    }
-
-    #info {
-        padding: 0.2em;
-        position: absolute;
-        max-width: 300px;
-        background: white;
-        border: solid 1px gray;
-    }
-
-</style>
 </head>
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/d3-path.v1.min.js"></script>
 <header>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-                <img src="assets/isw-trans.gif" alt="ISW" />
-                <h4>OPC UA Companion Specification Graph</h4>
-            </div>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark g-dark">
+        <a class="navbar-brand" href="#"><img src="assets/isw-trans.gif" height="30" alt="ISW"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="https://github.com/iswunistuttgart/opcua-cs-graph">Github <span
+                            class="sr-only">Github</span></a>
+                </li>
+            </ul>
         </div>
-    </div>
+
+    </nav>
 </header>
-<div id="outerContainer">
+<div class="row"></div>
+
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">OPC UA Companion Specification Graph</h1>
+        <p class="lead">The graph to discover dependencies between the OPC UA Companion Specification.</p>
+    </div>
+</div>
+
+<div class="container" id="outerContainer">
     <div id="graphContainer">
         <svg id="graph">
             <marker
-                id="arrowUsed"
-                markerUnits="strokeWidth"
-                markerWidth="12"
-                markerHeight="12"
-                viewBox="0 0 12 12"
-                refX="6"
-                refY="6"
-                orient="auto">
+                    id="arrowUsed"
+                    markerUnits="strokeWidth"
+                    markerWidth="12"
+                    markerHeight="12"
+                    viewBox="0 0 12 12"
+                    refX="6"
+                    refY="6"
+                    orient="auto">
                 <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
             </marker>
 
@@ -139,7 +87,22 @@
         <div id="info"></div>
     </div>
 </div>
-<script src="index.js"></script>
 
+<div class="row"></div>
+<footer class=footer>
+    <div class=container>
+        <ul class=footer-links>
+            <li><a href="#">Impressum</a></li>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="https://github.com/iswunistuttgart/opcua-cs-graph">Github</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="https://github.com/iswunistuttgart/opcua-cs-graph#authors">Authors</a></li>
+        </ul>
+        <p>Published under GNU General Public License v3.0 by
+            <a href="https://www.isw.uni-stuttgart.de"> Institute for Control Engineering of
+                Machine Tools and Manufacturing Units (ISW) </a>
+            Universit&auml;t Stuttgart, 2018</p>
+</footer>
+<script src="index.js"></script>
 </body>
 </html>

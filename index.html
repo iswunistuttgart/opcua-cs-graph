@@ -66,25 +66,28 @@
         <p class="lead">The graph to discover dependencies between the OPC UA Companion Specification.</p>
     </div>
 </div>
+<div class="container">
+    <div id="filter" class="text-muted">
+    </div>
+    <div id="outerContainer">
+        <div id="graphContainer">
+            <svg id="graph">
+                <marker
+                        id="arrowUsed"
+                        markerUnits="strokeWidth"
+                        markerWidth="12"
+                        markerHeight="12"
+                        viewBox="0 0 12 12"
+                        refX="6"
+                        refY="6"
+                        orient="auto">
+                    <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
+                </marker>
 
-<div class="container" id="outerContainer">
-    <div id="graphContainer">
-        <svg id="graph">
-            <marker
-                    id="arrowUsed"
-                    markerUnits="strokeWidth"
-                    markerWidth="12"
-                    markerHeight="12"
-                    viewBox="0 0 12 12"
-                    refX="6"
-                    refY="6"
-                    orient="auto">
-                <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
-            </marker>
 
-
-        </svg>
-        <div id="info"></div>
+            </svg>
+            <div id="info"></div>
+        </div>
     </div>
 </div>
 

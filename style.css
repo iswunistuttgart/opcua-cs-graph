@@ -90,7 +90,7 @@ svg {
 
 #graphContainer {
     position: absolute;
-    max-width: 140vh;
+    width: 140vh;
 }
 
 #info {

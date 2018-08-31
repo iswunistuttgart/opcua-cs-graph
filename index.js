@@ -1,4 +1,4 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
+var margin = {top: 20, right: 20, bottom: 30, left: 20},
     outerWidth = 0, outerHeight = 0, width = 0, height = 0;
 var opcua_data = null;
 
@@ -61,18 +61,21 @@ var xValue = function (d) {
     xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
 var rowCount = {1:0, 2:0, 3:0, 4:0};
+var totalRowCount = 4;
 var rowOffsets = {1:0, 2:0, 3:0, 4:0};
+var rowVisible = {1:true, 2:false, 3:true, 4:true};
+var typeNames = {1: "application-related", 2: "domain-specific", 3: "general", 4: "opc ua standard"};
 function getStandardType(d) {
-    types = {1: "application-related", 2: "domain-specific", 3: "general", 4: "opc ua standard"};
-    return Number.isInteger(d) ? types[d] : "";
+    return Number.isInteger(d) ? typeNames[d] : "";
 }
 function getScaledStandardType(d) {
     types = {};
-    typeNames = {1: "application-related", 2: "domain-specific", 3: "general", 4: "opc ua standard"};
     totalRowCount = 0;
     for (index in rowCount) {
-        types[totalRowCount] = typeNames[index];
-        totalRowCount += rowCount[index];
+        if (rowVisible[index]) {
+            types[totalRowCount] = typeNames[index];
+            totalRowCount += rowCount[index];
+        }
     }
     return types[d];
 }
@@ -87,10 +90,16 @@ var yMap = function (d) {
 }; // data -> display
 var yAxis = d3.svg.axis().scale(yScale)
     .tickFormat(getScaledStandardType)
-    .orient("left")
+    .orient("right");
 
 var widthValue = function(d) {
     return Math.max(d.parent.shortName.length, d.version.length, 4) * 8;
+}
+var opacityValue = function(d) {
+    return rowVisible[d.type] ? 1 : 0;
+}
+var linkOpacityValue = function(d) {
+    return rowVisible[d.source.parent.type] ? (rowVisible[d.target.parent.type] ? 1 : 0) : 0;
 }
 
 // setup fill color
@@ -152,12 +161,16 @@ function linkPathGenerator(d) {
     return path.toString();
 }
 
-// Adjust all nodes to the new x scale
-function setScale() {
+// Calculate all element's positions
+function setScale(isInit = false) {
+    yScale.domain([-2, totalRowCount - 1]);
+    yAxis.ticks(totalRowCount + 2);
     var spanTotalX = lastDay.getTime() - firstDay.getTime();
     var spanX = spanTotalX / zoom;
     xScale.domain([firstDay.getTime() + (spanTotalX * scrollX) - (spanX / 2), firstDay.getTime() + (spanTotalX * scrollX) + (spanX / 2)]);
-    var dots = svg.selectAll(".dot");
+    svg.selectAll(".spec").transition().duration(isInit ? 0 : 750)
+        .attr("opacity", opacityValue);
+    var dots = svg.selectAll(".dot").transition().duration(isInit ? 0 : 750);
     dots.select("rect")
         .attr("x", xMap)
         .attr("y", function (d) {
@@ -178,10 +191,42 @@ function setScale() {
         .attr("y", function (d) {
             return yMap(d) + 10
         });
-    var links = svg.selectAll(".link");
+
+    svg.selectAll(".typeBars").transition().duration(isInit ? 0 : 750)
+        .attr("x", 0)
+        .attr("y", function(d) {
+            return yScale(rowOffsets[d[0]] + d[1] - 0.5);
+        })
+        .attr("width", width)
+        .attr("height", function(d) {
+            return yScale(rowOffsets[d[0]]) - yScale(rowOffsets[d[0]] + d[1]);
+        })
+        .style("fill", function(d,i) {
+            return (i % 2) ? "#eee" : "none";
+        });
+
+    var links = svg.selectAll(".link").transition().duration(isInit ? 0 : 750);
     links.attr("d", linkPathGenerator);
+    links.attr("opacity", linkOpacityValue);
     svg.select("g.x")
         .call(xAxis);
+    svg.select("g.y")
+        .call(yAxis);
+}
+
+function calculateAbsoluteRows(data) {
+    totalRowCount = 0;
+    for (var index in rowCount) {
+        if (rowVisible[index]) {
+            rowOffsets[index] = totalRowCount;
+            for (var index2 in data.opcua) {
+                var item = data.opcua[index2];
+                if (item.type == index)
+                    item.absoluteRow = totalRowCount + item.row;
+            }
+            totalRowCount += rowCount[index];
+        }
+    }
 }
 
 var graphOffset = 0;
@@ -219,6 +264,31 @@ function versionArr(spec) {
 
 updateOffsets();
 
+var filters = d3.select("#filter")
+    .selectAll(".filteritem")
+    .data(Array.from(Object.entries(typeNames)).reverse())
+    .enter()
+    .append("label")
+    .attr("for", function(d) {
+        return "filter-" + d[0];
+    })
+    .attr("class", "filteritem")
+    .append("input")
+    .attr("type", "checkbox")
+    .attr("id", function(d) { return "filter-" + d[0]; })
+    .attr("name", "filter")
+    .attr("value", function(d) {return d[0];})
+    .attr("checked", function(d) { return rowVisible[d[0]] ? 'checked' : ''; })
+    .on("change", function(d) {
+        rowVisible[d[0]] = this.checked;
+        calculateAbsoluteRows(opcua_data);
+        setScale();
+    })
+    .select(function() { return this.parentElement; })
+    .append("span")
+    .text(function(d) { return d[1]; });
+
+
 // add the graph canvas to the body of the webpage
 var svg = d3.select("#graph")
     .attr("preserveAspectRatio", "xMinYMin meet")
@@ -242,7 +312,8 @@ var hideTimeout = null;
 
 // load data
 d3.json("data/cs.json", function (error, data) {
-    setScale();
+    opcua_data = data;
+    setScale(true);
 
     // Calculate y offset spec stream
     // First, calculate width extends of a spec with all its versions
@@ -279,35 +350,13 @@ d3.json("data/cs.json", function (error, data) {
         if (rowCount[item.type] <= item.row)
             rowCount[item.type] = item.row + 1;
     }
-    totalRowCount = 0;
-    for (var index in rowCount) {
-        rowOffsets[index] = totalRowCount;
-        for (var index2 in data.opcua) {
-            var item = data.opcua[index2];
-            if (item.type == index)
-                item.absoluteRow = totalRowCount + item.row;
-        }
-        totalRowCount += rowCount[index];
-    }
-    yScale.domain([-2, totalRowCount - 1]);
-    yAxis.ticks(totalRowCount + 2);
+    calculateAbsoluteRows(data);
 
     svg.selectAll(".typeBars")
         .data(Array.from(Object.entries(rowCount)))
         .enter()
         .append("rect")
-        .attr("class", "typeBars")
-        .attr("x", 0)
-        .attr("y", function(d) {
-            return yScale(rowOffsets[d[0]] + d[1] - 0.5);
-        })
-        .attr("width", width)
-        .attr("height", function(d) {
-            return yScale(rowOffsets[d[0]]) - yScale(rowOffsets[d[0]] + d[1]);
-        })
-        .style("fill", function(d,i) {
-            return (i % 2) ? "#eee" : "none";
-        });
+        .attr("class", "typeBars");
 
     // x-axis
     svg.append("g")
@@ -386,6 +435,7 @@ d3.json("data/cs.json", function (error, data) {
                 d3.select("#info").transition().delay(200).style("display", "none");
             }, 500);
         });
+    d3.select("#info").style("opacity", 0);
 
     // Generate svg elements for links
     svg.selectAll(".link")
@@ -458,10 +508,6 @@ d3.json("data/cs.json", function (error, data) {
             }, 500);
         })
         .append("rect")
-        .attr("x", xMap)
-        .attr("y", function (d) {
-            return yMap(d) - 14
-        })
         .attr("width", widthValue)
         .attr("height", 28)
         .attr("rx", 5)
@@ -481,21 +527,9 @@ d3.json("data/cs.json", function (error, data) {
         .attr("dy", ".35em")
         .style("text-anchor", "start")
         .append("tspan")
-        .attr("x", function (d) {
-            return xMap(d) + 3
-        })
-        .attr("y", function (d) {
-            return yMap(d) - 5
-        })
         .text(function (d) {
             return d.parent.shortName.length < 20 ? d.parent.shortName : d.parent.shortName.substr(0, 5) + "...";
         }).append("tspan")
-        .attr("x", function (d) {
-            return xMap(d) + 3
-        })
-        .attr("y", function (d) {
-            return yMap(d) + 10
-        })
         .text(function (d) {
             return d.version;
         });
@@ -550,6 +584,7 @@ d3.json("data/cs.json", function (error, data) {
         .attr("y", height - 25)
         .attr("dy", ".35em")
         .text("Release Candidate");
+    setScale(true);
 });
 
 function zoomRelative(delta, offsetX) {

@@ -84,7 +84,6 @@ svg {
 }
 
 #outerContainer {
-    margin: 0 auto;
     width: 90%;
     min-height: 1200px;
 }
@@ -100,4 +99,16 @@ svg {
     max-width: 300px;
     background: white;
     border: solid 1px gray;
+}
+
+#filter {
+    text-align: right;
+}
+
+#filter span {
+    margin-left: 0.5em;
+}
+
+#filter label {
+    margin-right: 1em;
 }

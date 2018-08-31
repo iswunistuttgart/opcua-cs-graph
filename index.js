@@ -264,7 +264,7 @@ function updateOffsets() {
             graphOffsetNode = graphOffsetNode.parentElement;
         }
     }
-    outerWidth = document.getElementById('graphContainer').clientWidth, outerHeight = 1200,
+    outerWidth = document.getElementById('graphContainer').clientWidth, outerHeight = 900,
         width = outerWidth - margin.left - margin.right,
         height = outerHeight - margin.top - margin.bottom;
     xScale.range([0, width - 100]);

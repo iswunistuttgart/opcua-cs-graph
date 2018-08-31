@@ -1,0 +1,97 @@
+body {
+    touch-action: none;
+}
+
+
+
+header img {
+    max-height: 4em;
+}
+
+.container {
+    max-width: 140vh !important;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.dot rect {
+    stroke: #000;
+}
+
+.link {
+    stroke: #999;
+    stroke-width: 2px;
+}
+
+.tooltip {
+    position: absolute;
+    width: 200px;
+    height: 28px;
+    pointer-events: none;
+}
+
+svg {
+    float: left;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    font: 11px sans-serif;
+}
+
+.jumbotron{
+    font-size: 16px;
+    text-align: center;
+}
+
+.footer {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #9a9ba8;
+    text-align: center;
+    background-color: #333
+}
+
+
+.footer a {
+    color: white;
+}
+
+.footer-links {
+    padding-left: 0;
+    margin-bottom: 20px
+}
+
+.footer-links li {
+    display: inline-block
+}
+
+.footer-links li + li {
+    margin-left: 15px
+}
+
+.g-dark{
+    background-color: #333
+}
+
+#outerContainer {
+    margin: 0 auto;
+    width: 90%;
+}
+
+#info {
+    padding: 0.2em;
+    position: absolute;
+    max-width: 300px;
+    background: white;
+    border: solid 1px gray;
+}

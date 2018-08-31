@@ -63,7 +63,7 @@ var xValue = function (d) {
 var rowCount = {1:0, 2:0, 3:0, 4:0};
 var totalRowCount = 4;
 var rowOffsets = {1:0, 2:0, 3:0, 4:0};
-var rowVisible = {1:true, 2:false, 3:true, 4:true};
+var rowVisible = {1:true, 2:true, 3:true, 4:false};
 var typeNames = {1: "application-related", 2: "domain-specific", 3: "general", 4: "opc ua standard"};
 function getStandardType(d) {
     return Number.isInteger(d) ? typeNames[d] : "";
@@ -98,8 +98,17 @@ var widthValue = function(d) {
 var opacityValue = function(d) {
     return rowVisible[d.type] ? 1 : 0;
 }
+var displayValue = function(d) {
+    return rowVisible[d.type] ? '' : 'none';
+}
 var linkOpacityValue = function(d) {
-    return rowVisible[d.source.parent.type] ? (rowVisible[d.target.parent.type] ? 1 : 0) : 0;
+    return linkDataVisibleValue(d) ? 1 : 0;
+}
+var linkDisplayValue = function(d) {
+    return linkDataVisibleValue(d) ? '' : 'none';
+}
+var linkDataVisibleValue = function(d) {
+    return rowVisible[d.source.parent.type] && rowVisible[d.target.parent.type];
 }
 
 // setup fill color
@@ -163,14 +172,23 @@ function linkPathGenerator(d) {
 
 // Calculate all element's positions
 function setScale(isInit = false) {
+    var animTime = 500;
     yScale.domain([-2, totalRowCount - 1]);
     yAxis.ticks(totalRowCount + 2);
     var spanTotalX = lastDay.getTime() - firstDay.getTime();
     var spanX = spanTotalX / zoom;
     xScale.domain([firstDay.getTime() + (spanTotalX * scrollX) - (spanX / 2), firstDay.getTime() + (spanTotalX * scrollX) + (spanX / 2)]);
-    svg.selectAll(".spec").transition().duration(isInit ? 0 : 750)
+    svg.select("g.x")
+        .call(xAxis);
+    svg.select("g.y")
+        .call(yAxis);
+    svg.selectAll(".spec")
+        .attr("display", '');
+    svg.selectAll(".spec").transition().duration(isInit ? 0 : animTime)
         .attr("opacity", opacityValue);
-    var dots = svg.selectAll(".dot").transition().duration(isInit ? 0 : 750);
+    svg.selectAll(".spec").transition().duration(0).delay(animTime)
+        .attr("display", displayValue);
+    var dots = svg.selectAll(".dot").transition().duration(isInit ? 0 : animTime);
     dots.select("rect")
         .attr("x", xMap)
         .attr("y", function (d) {
@@ -192,7 +210,7 @@ function setScale(isInit = false) {
             return yMap(d) + 10
         });
 
-    svg.selectAll(".typeBars").transition().duration(isInit ? 0 : 750)
+    svg.selectAll(".typeBars").transition().duration(isInit ? 0 : animTime)
         .attr("x", 0)
         .attr("y", function(d) {
             return yScale(rowOffsets[d[0]] + d[1] - 0.5);
@@ -201,17 +219,21 @@ function setScale(isInit = false) {
         .attr("height", function(d) {
             return yScale(rowOffsets[d[0]]) - yScale(rowOffsets[d[0]] + d[1]);
         })
+        .attr("opacity", function(d) {
+            return rowVisible[d[0]] ? 1 : 0
+        })
         .style("fill", function(d,i) {
             return (i % 2) ? "#eee" : "none";
         });
 
-    var links = svg.selectAll(".link").transition().duration(isInit ? 0 : 750);
-    links.attr("d", linkPathGenerator);
-    links.attr("opacity", linkOpacityValue);
-    svg.select("g.x")
-        .call(xAxis);
-    svg.select("g.y")
-        .call(yAxis);
+    var links = svg.selectAll(".link");
+    links.attr("data-visible", linkDataVisibleValue);
+    links.attr("display", '');
+    links.transition().duration(isInit ? 0 : animTime)
+        .attr("d", linkPathGenerator)
+        .attr("opacity", linkOpacityValue);
+    links.transition().duration(0).delay(animTime)
+        .attr("display", linkDisplayValue); // Set display value so invisible elements won't receive mouse events
 }
 
 function calculateAbsoluteRows(data) {
@@ -278,7 +300,7 @@ var filters = d3.select("#filter")
     .attr("id", function(d) { return "filter-" + d[0]; })
     .attr("name", "filter")
     .attr("value", function(d) {return d[0];})
-    .attr("checked", function(d) { return rowVisible[d[0]] ? 'checked' : ''; })
+    .attr("checked", function(d) { return rowVisible[d[0]] ? 'checked' : undefined; })
     .on("change", function(d) {
         rowVisible[d[0]] = this.checked;
         calculateAbsoluteRows(opcua_data);
@@ -429,8 +451,8 @@ d3.json("data/cs.json", function (error, data) {
         .on("mouseout", function(d) {
             clearTimeout(hideTimeout);
             hideTimeout = setTimeout(function() {
-                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
-                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+                svg.selectAll(".dot").transition().duration(200).attr("opacity", 1);
+                svg.selectAll(".link").filter(linkDataVisibleValue).transition().duration(200).attr("opacity", 1);
                 d3.select("#info").transition().duration(200).style("opacity", 0);
                 d3.select("#info").transition().delay(200).style("display", "none");
             }, 500);
@@ -446,12 +468,12 @@ d3.json("data/cs.json", function (error, data) {
         })
         .attr("d", linkPathGenerator)
         .on("mouseover", function(d) {
-            svg.selectAll(".link").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
-            svg.selectAll(".dot").filter(function(dd,i) { return dd.id != d.source.id && dd.id != d.target.id }).transition().duration(200).style("opacity", 0.2);
+            svg.selectAll(".link").filter(linkDataVisibleValue).filter(function(dd,i){ return dd != d; }).transition().duration(200).attr("opacity", 0.2);
+            svg.selectAll(".dot").filter(function(dd,i) { return dd.id != d.source.id && dd.id != d.target.id }).transition().duration(200).attr("opacity", 0.2);
         })
         .on("mouseout", function(d) {
-            svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
-            svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+            svg.selectAll(".dot").transition().duration(200).attr("opacity", 1);
+            svg.selectAll(".link").filter(linkDataVisibleValue).transition().duration(200).attr("opacity", 1);
         })
         .style("fill", "none")
         .attr("marker-end", "url(#arrowUsed");
@@ -474,10 +496,10 @@ d3.json("data/cs.json", function (error, data) {
             return "dot-" + d.id;
         })
         .on("mouseover", function(d) {
-            svg.selectAll(".dot").filter(function(dd,i){ return dd == d; }).transition().duration(200).style("opacity", 1);
-            svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).style("opacity", 0.2);
-            svg.selectAll(".link").transition().duration(200).style("opacity", 0.2);
-            svg.selectAll(".link-from-" + d.id).transition().duration(200).style("opacity", 1);
+            svg.selectAll(".dot").filter(function(dd,i){ return dd == d; }).transition().duration(200).attr("opacity", 1);
+            svg.selectAll(".dot").filter(function(dd,i){ return dd != d; }).transition().duration(200).attr("opacity", 0.2);
+            svg.selectAll(".link").filter(linkDataVisibleValue).transition().duration(200).attr("opacity", 0.2);
+            svg.selectAll(".link-from-" + d.id).filter(linkDataVisibleValue).transition().duration(200).attr("opacity", 1);
             d3.select("#info").html(object2html(mapDisplayData(d))).transition().duration(200).style("opacity", 0.8);
             d3.select("#info").style("display", "block");
             var ge = document.getElementById("graph");
@@ -501,8 +523,8 @@ d3.json("data/cs.json", function (error, data) {
         .on("mouseout", function(d) {
             clearTimeout(hideTimeout);
             hideTimeout = setTimeout(function() {
-                svg.selectAll(".dot").transition().duration(200).style("opacity", 1);
-                svg.selectAll(".link").transition().duration(200).style("opacity", 1);
+                svg.selectAll(".dot").transition().duration(200).attr("opacity", 1);
+                svg.selectAll(".link").filter(linkDataVisibleValue).transition().duration(200).attr("opacity", 1);
                 d3.select("#info").transition().duration(200).style("opacity", 0);
                 d3.select("#info").transition().delay(200).style("display", "none");
             }, 500);

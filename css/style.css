@@ -87,7 +87,12 @@ svg {
 
 #graphContainer {
     position: absolute;
-    width: 140vh;
+    width: 90%;
+}
+@media(min-width: 140vh) {
+    #graphContainer {
+        width: 140vh;
+    }
 }
 
 #info {

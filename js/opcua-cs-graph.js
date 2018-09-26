@@ -82,7 +82,7 @@ function getScaledStandardType(d) {
 
 // setup y
 var yValue = function (d) {
-    return d.parent.absoluteRow;
+    return d.parent.absoluteRow ? d.parent.absoluteRow : 0;
 }; // data -> value
 var yScale = d3.scale.linear(); // value -> display
 var yMap = function (d) {
@@ -172,7 +172,7 @@ function linkPathGenerator(d) {
 
 // Calculate all element's positions
 function setScale(isInit = false) {
-    var animTime = 500;
+    var animTime = 100;
     yScale.domain([-2, totalRowCount - 1]);
     yAxis.ticks(totalRowCount + 2);
     var spanTotalX = lastDay.getTime() - firstDay.getTime();
@@ -184,11 +184,11 @@ function setScale(isInit = false) {
         .call(yAxis);
     svg.selectAll(".spec")
         .attr("display", '');
-    svg.selectAll(".spec").transition().duration(isInit ? 0 : animTime)
+    svg.selectAll(".spec").transition('setScale').duration(isInit ? 0 : animTime)
         .attr("opacity", opacityValue);
-    svg.selectAll(".spec").transition().duration(0).delay(animTime)
+    svg.selectAll(".spec").transition('setScale').duration(0).delay(animTime)
         .attr("display", displayValue);
-    var dots = svg.selectAll(".dot").transition().duration(isInit ? 0 : animTime);
+    var dots = svg.selectAll(".dot").transition('setScale').duration(isInit ? 0 : animTime);
     dots.select("rect")
         .attr("x", xMap)
         .attr("y", function (d) {
@@ -210,7 +210,7 @@ function setScale(isInit = false) {
             return yMap(d) + 10
         });
 
-    svg.selectAll(".typeBars").transition().duration(isInit ? 0 : animTime)
+    svg.selectAll(".typeBars").transition('setScale').duration(isInit ? 0 : animTime)
         .attr("x", 0)
         .attr("y", function(d) {
             return yScale(rowOffsets[d[0]] + d[1] - 0.5);
@@ -229,10 +229,10 @@ function setScale(isInit = false) {
     var links = svg.selectAll(".link");
     links.attr("data-visible", linkDataVisibleValue);
     links.attr("display", '');
-    links.transition().duration(isInit ? 0 : animTime)
+    links.transition('setScale').duration(isInit ? 0 : animTime)
         .attr("d", linkPathGenerator)
         .attr("opacity", linkOpacityValue);
-    links.transition().duration(0).delay(animTime)
+    links.transition('setScale').duration(0).delay(animTime)
         .attr("display", linkDisplayValue); // Set display value so invisible elements won't receive mouse events
 }
 

@@ -315,7 +315,6 @@ var filters = d3.select("#filter")
 var svg = d3.select("#graph")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("viewBox", "0 0 "+ outerWidth +" "+ outerHeight)
-    .attr("class", "col-sm")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -610,8 +609,11 @@ d3.json("data/cs.json", function (error, data) {
 });
 
 function zoomRelative(delta, offsetX) {
-    var offsetDeltaX = (offsetX * 1.0 / document.getElementById('graph').parentElement.clientWidth - 0.5);
-    scrollX += offsetDeltaX / zoom * delta * 0.0002;// + scrollX * (1.0 - 1.0/zoom);
+    var parWidth = document.getElementById('graph').parentElement.clientWidth;
+    //                  translation of outer g  width reduction of scale
+    //                             |                     |
+    var offsetDeltaX = ((offsetX - 20) * 1.0 / (width - 100) - 0.5);
+    scrollX += offsetDeltaX / zoom / zoom * delta * 0.0002;// + scrollX * (1.0 - 1.0/zoom);
     zoom = zoom + delta * 0.0002;
     zoom = Math.max(1.0, Math.min(zoom, 10.0));
     scrollX = Math.min(1.0 - 0.5 / zoom, Math.max(0.5 / zoom, scrollX));
@@ -623,6 +625,8 @@ function scrollEvent(e) {
     var evt = window.event || e;
     var delta = evt.detail ? evt.detail*(-120) : evt.wheelDelta;
     var old_zoom = zoom;
+    // absolute page coordinate  offset of div
+    //               |             |
     var offsetX = e.pageX - graphOffset;
     zoomRelative(delta, offsetX);
     if (zoom != old_zoom)

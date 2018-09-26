@@ -2,7 +2,9 @@ body {
     touch-action: none;
 }
 
-
+header {
+    background: #e9ecef;
+}
 
 header img {
     max-height: 4em;
@@ -44,11 +46,6 @@ svg {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
     font: 11px sans-serif;
-}
-
-.jumbotron{
-    font-size: 16px;
-    text-align: center;
 }
 
 .footer {

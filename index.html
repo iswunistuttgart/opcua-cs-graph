@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+
+  <head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="OPC UA Companion Specification Graph">
+    <meta name="author" content="ISW Universit&auml;t Stuttgart">
+
+    <title>OPC UA Companion Specification Graph</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+
+    <!-- Custom styles for this website -->
+    <link href="css/style.css" rel="stylesheet">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-102889108-2"></script>
     <script>
@@ -17,95 +31,86 @@
         gtag('config', 'UA-102889108-2');
     </script>
     <!-- END Google Analytics -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
 
-    <title>OPC UA Companion Specification Graph</title>
+  </head>
 
-    <!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
-    <!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
-    <!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
-    <link rel="stylesheet" href="style.css">
-
-</head>
-<body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://d3js.org/d3-path.v1.min.js"></script>
-<header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark g-dark">
-        <a class="navbar-brand" href="#"><img src="assets/isw-trans.gif" height="30" alt="ISW"/></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+  <body id="page-top">
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="https://d3js.org/d3-path.v1.min.js"></script>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="assets/isw-trans.gif" height="30" alt="ISW"/> OPC UA Companion Specification Graph</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://github.com/iswunistuttgart/opcua-cs-graph">Github <span
-                            class="sr-only">Github</span></a>
-                </li>
-            </ul>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="https://github.com/iswunistuttgart/opcua-cs-graph">Github Repo</a>
+            </li>
+          </ul>
         </div>
-
+      </div>
     </nav>
-</header>
-<div class="row"></div>
 
+	<header>
+	    <div class="container text-center">
+        	<h1>Welcome to the OPC UA Companion Specification Graph</h1>
+        	<p class="lead">The graph to discover dependencies between the OPC UA Companion Specification.</p>
+	    </div>
+	</header>
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">OPC UA Companion Specification Graph</h1>
-        <p class="lead">The graph to discover dependencies between the OPC UA Companion Specification.</p>
-    </div>
-</div>
-<div class="container">
-    <div id="filter" class="text-muted">
-    </div>
-    <div id="outerContainer">
-        <div id="graphContainer">
-            <svg id="graph">
-                <marker
-                        id="arrowUsed"
-                        markerUnits="strokeWidth"
-                        markerWidth="12"
-                        markerHeight="12"
-                        viewBox="0 0 12 12"
-                        refX="6"
-                        refY="6"
-                        orient="auto">
-                    <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
-                </marker>
+    <section id="visual">
+		<div class="container">
+			<div id="filter" class="text-muted"></div>
+			<div id="outerContainer">
+				<div id="graphContainer">
+					<svg id="graph">
+						<marker
+								id="arrowUsed"
+								markerUnits="strokeWidth"
+								markerWidth="12"
+								markerHeight="12"
+								viewBox="0 0 12 12"
+								refX="6"
+								refY="6"
+								orient="auto">
+							<path d="M2,2 L2,11 L10,6 L2,2" style="fill: #999;"></path>
+						</marker>
+					</svg>
+					<div id="info"></div>
+				</div>
+			</div>
+		</div>
+    </section>
 
-
-            </svg>
-            <div id="info"></div>
-        </div>
-    </div>
-</div>
-
-<div class="row"></div>
-<footer class=footer>
-    <div class=container>
-        <ul class=footer-links>
-            <li><a href="#">Impressum</a></li>
-            <li><a href="#">Privacy policy</a></li>
-            <li><a href="https://github.com/iswunistuttgart/opcua-cs-graph">Github</a></li>
-            <li><a href="#">About</a></li>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer">
+      <div class="container">
+      	<ul class=footer-links>
             <li><a href="https://github.com/iswunistuttgart/opcua-cs-graph#authors">Authors</a></li>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">Imprint</a></li>
         </ul>
-        <p>Published under GNU General Public License v3.0 by
-            <a href="https://www.isw.uni-stuttgart.de"> Institute for Control Engineering of
-                Machine Tools and Manufacturing Units (ISW) </a>
-            Universit&auml;t Stuttgart, 2018</p>
-</footer>
-<script src="index.js"></script>
-</body>
+        <p class="m-0 text-center text-white">Published under GNU General Public License v3.0 by <br /><a href="https://www.isw.uni-stuttgart.de"> Institute for Control Engineering of Machine Tools and Manufacturing Units (ISW)</a> <br />University of Stuttgart, 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- This site JavaScript -->
+	<script src="js/opcua-cs-graph.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom JavaScript for this theme -->
+    <script src="js/scrolling-nav.js"></script>
+
+  </body>
+
 </html>

@@ -662,6 +662,24 @@
                         {"id": "opcua_part1", "version": "1.02"},
                         {"id": "cs_di", "version": "1.0"}
                     ]
+                },
+                "1.02": {
+                    "date": "2019-04-18",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part1", "version": "1.04"},
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
+                },
+                "1.02.02": {
+                    "date": "2020-06-02",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part1", "version": "1.04"},
+                        {"id": "cs_di", "version": "1.02"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -977,6 +995,42 @@
             "type": 1,
             "standard_type": "Companion Specification",
             "nodeset": ""
+        },
+        {
+            "id": "40001-1",
+            "name": " OPC 40001-1 - UA Companion Specification for Machinery ",
+            "shortName": "Machinery",
+            "versions": {
+                "1": {
+                    "date": "2020-04-22",
+                    "status": "Release Candidate",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 2,
+            "standard_type": "Companion Specification"
+        },
+        {
+            "id": "40501-1",
+            "name": " OPC 40501-1 - UA CS for Machine Tools, Part 1: Base Model",
+            "shortName": "Machine Tools",
+            "versions": {
+                "1": {
+                    "date": "2020-05-21",
+                    "status": "Release Candidate",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
+                    "usedOPCUAPart": [
+                        {"id": "40001-1", "version": "1"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 2,
+            "standard_type": "Companion Specification"
         }
     ]
 }

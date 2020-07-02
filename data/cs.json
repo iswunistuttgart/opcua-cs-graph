@@ -471,6 +471,23 @@
             "standard_type": "OPC UA Standard"
         },
         {
+            "id": "opcua_part17",
+            "name": "Part 17: Alias Names",
+            "shortName": "Alias Names",
+            "versions": {
+                "1.04": {
+                    "date": "2020-04-02",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-17-alias-names/",
+                    "usedOPCUAPart": [
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
             "id": "opcua_10001-2",
             "name": "OPC 10001-2 - Amendment 2: ChoiceStates and Guards",
             "shortName": "ChoiceStates",

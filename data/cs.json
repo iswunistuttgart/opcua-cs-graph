@@ -471,6 +471,161 @@
             "standard_type": "OPC UA Standard"
         },
         {
+            "id": "opcua_10001-2",
+            "name": "OPC 10001-2 - Amendment 2: ChoiceStates and Guards",
+            "shortName": "ChoiceStates",
+            "versions": {
+                "1.04": {
+                    "date": "2019-03-27",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part5", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-1",
+            "name": "OPC 10001-1 - Amendment 1: AnalogItem Types",
+            "shortName": "AnalogItem Types",
+            "versions": {
+                "1.04": {
+                    "date": "2019-02-27",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part8", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-3",
+            "name": "OPC 10001-3 - Amendment 3: Method Metadata",
+            "shortName": "Method Metadata",
+            "versions": {
+                "1.04": {
+                    "date": "2018-11-06",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part3", "version": "1.04"},
+                        {"id": "opcua_part4", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-5",
+            "name": "OPC 10001-5 - Amendment 5: Dictionary Reference",
+            "shortName": "Dictionary",
+            "versions": {
+                "1.04": {
+                    "date": "2019-03-26",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part5", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-7",
+            "name": "OPC 10001-7 - Amendment 7: Interfaces and AddIns",
+            "shortName": "Interfaces",
+            "versions": {
+                "1.04": {
+                    "date": "2019-03-27",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part3", "version": "1.04"},
+                        {"id": "opcua_part5", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-6",
+            "name": "OPC 10001-6 - Amendment 6: UADP Header Layouts",
+            "shortName": "UADP Header",
+            "versions": {
+                "1.04": {
+                    "date": "2019-06-04",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part14", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-10",
+            "name": "OPC 10001-10 - Amendment 10: Currency",
+            "shortName": "Currency",
+            "versions": {
+                "1.04": {
+                    "date": "2020-03-05",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part3", "version": "1.04"},
+                        {"id": "opcua_part5", "version": "1.04"},
+                        {"id": "opcua_part7", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
+            "id": "opcua_10001-11",
+            "name": "OPC 10001-11 - Amendment 11: Spatial Types",
+            "shortName": "Spatial",
+            "versions": {
+                "1.04": {
+                    "date": "2019-05-01",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/errata-and-amendments/",
+                    "usedOPCUAPart": [
+                        {"id": "opcua_part5", "version": "1.04"},
+                        {"id": "opcua_part3", "version": "1.04"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 4,
+            "standard_type": "OPC UA Standard"
+        },
+        {
             "id": "cs_di",
             "name": "OPC Unified Architecture for Devices (DI)",
             "shortName": "DI",

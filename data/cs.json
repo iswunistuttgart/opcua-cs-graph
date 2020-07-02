@@ -979,6 +979,15 @@
                     "usedOPCUAPart": [
                         {"id": "cs_di", "version": "1.01"}
                     ]
+                },
+                "1.02": {
+                    "date": "2020-04-22",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-ua-for-plastics-and-rubber-machinery/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"},
+                        {"id": "euromap83", "version": "1.0"}
+                    ]
                 }
             },
             "type": 2,
@@ -996,6 +1005,16 @@
                     "link": "http://www.euromap.org/en/euromap77/",
                     "usedOPCUAPart": [
                         {"id": "euromap83", "version": "1.0"},
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
+                },
+                "1.01": {
+                    "date": "2020-04-22",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-ua-for-plastics-and-rubber-machinery/",
+                    "usedOPCUAPart": [
+                        {"id": "euromap83", "version": "1.02"},
+                        {"id": "euromap77", "version": "1.0"},
                         {"id": "cs_di", "version": "1.01"}
                     ]
                 }

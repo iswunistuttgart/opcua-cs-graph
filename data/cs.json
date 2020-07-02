@@ -893,6 +893,14 @@
                     "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-packml-companion-specification/",
                     "usedOPCUAPart": [
                     ]
+                },
+                "1.0.1": {
+                    "date": "2018-11-15",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-ua-packml-companion-specification/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_packml", "version": "1.0.0"}
+                    ]
                 }
             },
             "nodeset": "",
@@ -1030,6 +1038,27 @@
             },
             "nodeset": "",
             "type": 2,
+            "standard_type": "Companion Specification"
+        },
+        {
+            "id": "40200",
+            "name": " OPC 40501-1 - UA CS for Weighing Technology",
+            "shortName": "Weighing",
+            "versions": {
+                "1": {
+                    "date": "2020-06-01",
+                    "status": "Release ",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-ua-for-weighing-technology/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02"},
+                        {"id": "opcua_10001-10", "version": "1.04"},
+                        {"id": "opcua_10001-1", "version": "1.04"}
+
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 1,
             "standard_type": "Companion Specification"
         }
     ]

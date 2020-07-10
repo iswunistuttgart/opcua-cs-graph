@@ -1162,6 +1162,24 @@
             "nodeset": "",
             "type": 2,
             "standard_type": "Companion Specification"
+        },
+        {
+            "id": "IO-Link",
+            "name": "OPC UA for IO-Link Devices and IO-Link Masters",
+            "shortName": "IO-Link",
+            "versions": {
+                "1": {
+                    "date": "2018-12-01",
+                    "status": "Release ",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-unified-architecture-for-commercial-kitchen-equipment/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 3,
+            "standard_type": "Companion Specification"
         }
     ]
 }

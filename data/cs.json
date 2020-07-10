@@ -723,6 +723,33 @@
             "nodeset": ""
         },
         {
+            "id": "cs_FDI",
+            "name": "Field Device Integration (FDI) – Part 5 and Part 7",
+            "shortName": "FDI",
+            "versions": {
+                "1.0": {
+                    "date": "2014-11-01",
+                    "status": "Release (old)",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-unified-architecture-for-fdi/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"}
+                    ]
+                },
+                "1.1": {
+                    "date": "2017-09-07",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-unified-architecture-for-fdi/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.01"},
+                        {"id": "cs_FDI", "version": "1.0"}
+                    ]
+                }
+            },
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": ""
+        },
+        {
             "id": "cs_autoid",
             "name": " OPC Unified Architecture for AutoID",
             "shortName": "AutoID",

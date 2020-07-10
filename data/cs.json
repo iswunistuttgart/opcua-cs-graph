@@ -1144,6 +1144,24 @@
             "nodeset": "",
             "type": 1,
             "standard_type": "Companion Specification"
+        },
+        {
+            "id": "30200",
+            "name": "Commercial Kitchen Equipment",
+            "shortName": "Commercial Kitchen",
+            "versions": {
+                "1": {
+                    "date": "2019-07-12",
+                    "status": "Release ",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-unified-architecture-for-commercial-kitchen-equipment/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02"}
+                    ]
+                }
+            },
+            "nodeset": "",
+            "type": 2,
+            "standard_type": "Companion Specification"
         }
     ]
 }

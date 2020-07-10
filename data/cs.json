@@ -788,6 +788,24 @@
             "nodeset": ""
         },
         {
+            "id": "cs_40100_1",
+            "name": "OPC UA for Machine Vision",
+            "shortName": "Machine Vision",
+            "versions": {
+                "1.0": {
+                    "date": "2019-08-05",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-unified-architecture-for-machine-vision/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02"}
+                    ]
+                }
+            },
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": ""
+        },
+        {
             "id": "cs_plcopen",
             "name": "PLCopen Information Model ",
             "shortName": "PLOpen",

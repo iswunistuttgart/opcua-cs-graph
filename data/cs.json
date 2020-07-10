@@ -768,6 +768,26 @@
             "nodeset": ""
         },
         {
+            "id": "cs_40010_1",
+            "name": " OPC Unified Architecture for Robotics",
+            "shortName": "Robotics",
+            "versions": {
+                "1.0": {
+                    "date": "2019-05-13",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/opc-unified-architecture-for-robotics/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02"},
+                        {"id": "opcua_10001-1", "version": "1.04"},
+                        {"id": "opcua_10001-11", "version": "1.04"}
+                    ]
+                }
+            },
+            "type": 2,
+            "standard_type": "Companion Specification",
+            "nodeset": ""
+        },
+        {
             "id": "cs_plcopen",
             "name": "PLCopen Information Model ",
             "shortName": "PLOpen",

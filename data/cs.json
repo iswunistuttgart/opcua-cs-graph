@@ -643,49 +643,65 @@
             "standard_type": "OPC UA Standard"
         },
         {
-            "id": "cs_di",
-            "name": "OPC Unified Architecture for Devices (DI)",
-            "shortName": "DI",
-            "versions": {
-                "1.0": {
-                    "date": "2009-12-09",
-                    "status": "Release (old)",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
-                    "usedOPCUAPart": [
-                    ]
-                },
-                "1.01": {
-                    "date": "2013-07-25",
-                    "status": "Release",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
-                    "usedOPCUAPart": [
-                        {"id": "opcua_part1", "version": "1.02"},
-                        {"id": "cs_di", "version": "1.0"}
-                    ]
-                },
-                "1.02": {
-                    "date": "2019-04-18",
-                    "status": "Release",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
-                    "usedOPCUAPart": [
-                        {"id": "opcua_part1", "version": "1.04"},
-                        {"id": "cs_di", "version": "1.01"}
-                    ]
-                },
-                "1.02.02": {
-                    "date": "2020-06-02",
-                    "status": "Release",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
-                    "usedOPCUAPart": [
-                        {"id": "opcua_part1", "version": "1.04"},
-                        {"id": "cs_di", "version": "1.02"}
-                    ]
-                }
-            },
-            "nodeset": "",
-            "type": 3,
-            "standard_type": "Companion Specification"
+        "id": "cs_di",
+        "name": "OPC Unified Architecture for Devices (DI)",
+        "shortName": "DI",
+        "versions": {
+          "1.0": {
+            "date": "2009-12-09",
+            "status": "Release (old)",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+            "usedOPCUAPart": [
+            ]
+          },
+          "1.01": {
+            "date": "2013-07-25",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+            "usedOPCUAPart": [
+              {"id": "opcua_part1", "version": "1.02"},
+              {"id": "cs_di", "version": "1.0"}
+            ]
+          },
+          "1.02": {
+            "date": "2019-04-18",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+            "usedOPCUAPart": [
+              {"id": "opcua_part1", "version": "1.04"},
+              {"id": "cs_di", "version": "1.01"}
+            ]
+          },
+          "1.02.02": {
+            "date": "2020-06-02",
+            "status": "Release",
+            "link": "https://opcfoundation.org/developer-tools/specifications-unified-architecture/opc-unified-architecture-for-devices-di/",
+            "usedOPCUAPart": [
+              {"id": "opcua_part1", "version": "1.04"},
+              {"id": "cs_di", "version": "1.02"}
+            ]
+          }
         },
+        "nodeset": "",
+        "type": 3,
+        "standard_type": "Companion Specification"
+      },        {
+        "id": "cs_ia",
+        "name": "OPC 10000-200: OPC Unified Architecture)",
+        "shortName": "IA",
+        "versions": {
+          "1.00.0": {
+            "date": "2020-08-31",
+            "status": "Release",
+            "link": "https://reference.opcfoundation.org/v104/#v100",
+            "usedOPCUAPart": [
+            ]
+          }
+        },
+        "nodeset": "",
+        "type": 3,
+        "standard_type": "Companion Specification"
+      },
         {
             "id": "cs_adi",
             "name": "OPC Unified Architecture for Analyzer Devices (ADI)",
@@ -1100,7 +1116,15 @@
                     "usedOPCUAPart": [
                         {"id": "cs_di", "version": "1.02"}
                     ]
-                }
+                },
+              "1.0.0" : {
+                "date": "2020-09-25",
+                "status": "Release",
+                "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
+                "usedOPCUAPart": [
+                  {"id": "cs_di", "version": "1.02.02"}
+                ]
+              }
             },
             "nodeset": "",
             "type": 2,
@@ -1112,13 +1136,23 @@
             "shortName": "Machine Tools",
             "versions": {
                 "1": {
-                    "date": "2020-05-21",
-                    "status": "Release Candidate",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
-                    "usedOPCUAPart": [
-                        {"id": "40001-1", "version": "1"}
-                    ]
-                }
+                "date": "2020-05-21",
+                "status": "Release Candidate",
+                "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
+                "usedOPCUAPart": [
+                  {"id": "40001-1", "version": "1"}
+                ]
+              },
+              "1.00.0":{
+                "date": "2020-09-25",
+                "status": "Release ",
+                "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
+                "usedOPCUAPart": [
+                  {"id": "40001-1", "version": "1.0.0"},
+                  {"id": "cs_di", "version": "1.02"},
+                  {"id": "cs_ia", "version": "1.00.0"}
+                ]
+              }
             },
             "nodeset": "",
             "type": 2,

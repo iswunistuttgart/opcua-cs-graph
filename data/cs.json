@@ -751,14 +751,6 @@
                         {"id": "cs_di", "version": "1.01"}
                     ]
                 },
-                "1.02": {
-                    "date": "2020-01-24",
-                    "status": "Release Candidate",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
-                    "usedOPCUAPart": [
-                        {"id": "cs_di", "version": "1.02"}
-                    ]
-                },
                 "1.1": {
                     "date": "2017-09-07",
                     "status": "Release",
@@ -1132,10 +1124,18 @@
                 "usedOPCUAPart": [
                   {"id": "cs_di", "version": "1.02.02"}
                 ]
-              }
+              },
+                "1.01.0" : {
+                    "date": "2021-04-01",
+                    "status": "Release",
+                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
+                    "usedOPCUAPart": [
+                        {"id": "cs_di", "version": "1.02.02"}
+                    ]
+                }
             },
             "nodeset": "",
-            "type": 2,
+            "type": 3,
             "standard_type": "Companion Specification"
         },
         {
@@ -1219,7 +1219,7 @@
                     ]
                 }
             },
-            "nodeset": "30270",
+            "nodeset": "",
             "type": 3,
             "standard_type": "Companion Specification"
         },
@@ -1250,34 +1250,14 @@
                     "status": "Release Candidate ",
                     "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
                     "usedOPCUAPart": [
-                        {"id": "cs_di", "version": "1.02.2"},
-                        {"id": "cs_machinery", "version": "1.01.0"}
+                        {"id": "cs_di", "version": "1.02.02"},
+                        {"id":  "40001-1", "version":  "1.01.0"}
                     ]
                 }
             },
             "nodeset": "",
-            "type": 3,
-            "standard_type": "Companion Specification"
-        },
-        {
-            "id": "OPC_11020-1",
-            "name": "UA CS for Cloud Library Part 1-Architecture and UseCases",
-            "shortName": "OPC_11020-1",
-            "versions": {
-                "1.00": {
-                    "date": "2021-05-26",
-                    "status": "Release Candidate ",
-                    "link": "https://opcfoundation.org/developer-tools/specifications-opc-ua-information-models/information-model-release-candidates-for-review/",
-                    "usedOPCUAPart": [
-                    ]
-                }
-            },
-            "nodeset": "",
-            "type": 3,
+            "type": 1,
             "standard_type": "Companion Specification"
         }
-
-
-
     ]
 }

@@ -824,7 +824,7 @@
         {
             "id": "cs_plcopen",
             "name": "PLCopen Information Model ",
-            "shortName": "PLOpen",
+            "shortName": "PLCOpen",
             "versions": {
                 "1.0": {
                     "date": "2010-03-18",
